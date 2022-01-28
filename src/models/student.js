@@ -1,27 +1,27 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const subject = mongoose.Schema({
   title: {
     type: String,
     enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
     default: 'Math',
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const student = mongoose.schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
   password_hash: {
     type: String,
@@ -33,22 +33,22 @@ const student = mongoose.schema({
   },
   isTutor: {
     type: Boolean,
-    default: false
+    default: false,
   },
   avatar: {
-    type: String
+    type: String,
   },
   subjects: {
     type: [subject],
   },
   questions: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Question'
+    ref: 'Question',
   },
   inbox: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'messagingChannel'
-  }
-})
+    ref: 'messagingChannel',
+  },
+});
 
-module.exports = mongoose.model('Student', student)
+module.exports = mongoose.model('Student', student);

@@ -1,29 +1,29 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const subject = mongoose.Schema({
   title: {
     type: String,
     enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
     default: 'Math',
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const question = mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
   subjects: {
     type: [subject],
   },
   isSolved: {
     type: Boolean,
-    default: false
+    default: false,
   },
   // comments: {
   //   type: [comment]
@@ -31,9 +31,8 @@ const question = mongoose.Schema({
   student: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Student',
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-
-module.exports = mongoose.model('Question', question)
+module.exports = mongoose.model('Question', question);
