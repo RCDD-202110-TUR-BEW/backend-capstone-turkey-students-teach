@@ -2,42 +2,26 @@ const mongoose = require('mongoose');
 
 const url = process.env.MONGODB_ATLAS_URL;
 
-class Connection {
-  constructor() {
-    mongoose
-      .connect(url, { useNewUrlParser: true })
-      // eslint-disable-next-line no-console
-      .then(() => console.info('MongoDB connection established successfully'))
-      .catch((e) =>
-        // eslint-disable-next-line no-console
-        console.error(`MongoDB connection failed with error: ${e}`)
-      );
-
-    const db = mongoose.connection;
-
-    // To handle errors after initial connection was established
-    db.on('error', (e) => {
-      // eslint-disable-next-line no-console
-      console.error(`Database connection error: ${e}`);
+const connectToMongo = async () => {
+  try {
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
+    // eslint-disable-next-line no-console
+    console.log('Database connected: ', url);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Database connection error: ', err);
   }
 
-  static getInstance() {
-    if (this.instance) {
-      return this.instance;
-    }
-    this.instance = new Connection();
-    return this.instance;
-  }
+  const db = mongoose.connection;
 
-  static disconnect() {
-    if (this.instance) {
-      mongoose.connection.close();
-      this.instance = null;
-      // eslint-disable-next-line no-console
-      console.info('DB connection disconnected successfully');
-    }
-  }
-}
+  // To handle errors after initial connection was established
+  db.on('error', (err) => {
+    // eslint-disable-next-line no-console
+    console.error('Database connection error: ', err);
+  });
+};
 
-module.exports = Connection;
+module.exports = connectToMongo;
