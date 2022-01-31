@@ -6,21 +6,17 @@ const router = express.Router();
 
 router.get('/', questionController.getAllQuestions);
 
-router.post(
-  '/ask-question',
-  onlyAuthenticated(),
-  questionController.addnewQuestion
-);
+router.post('/', onlyAuthenticated(), questionController.addnewQuestion);
+
+router.get('/search', questionController.searchForQuestions);
+
+router.get('/filter/:tagid', questionController.getQuestiosWithSimilarTags);
 
 router.get('/:id', questionController.getOneQuestion);
 
 router.put('/:id', onlyAuthenticated(), questionController.updateQuestion);
 
 router.delete('/:id', onlyAuthenticated(), questionController.deleteQuestion);
-
-router.get('/:tags', questionController.getQuestiosWithSimilarTags);
-
-router.get('/search', questionController.searchForQuestions);
 
 router.post(
   '/:id/comments',
@@ -29,13 +25,13 @@ router.post(
 );
 
 router.put(
-  ':id/comments/:id',
+  ':id/comments/:commentid',
   onlyAuthenticated(),
   questionController.updateComment
 );
 
 router.delete(
-  ':id/comments/:id',
+  ':id/comments/:commentid',
   onlyAuthenticated(),
   questionController.deleteComment
 );
