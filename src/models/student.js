@@ -23,7 +23,7 @@ const student = mongoose.schema({
     type: String,
     required: true,
   },
-  password_hash: {
+  passwordHash: {
     type: String,
     required: true,
   },
@@ -45,7 +45,7 @@ const student = mongoose.schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'Question',
   },
-  inbox: {
+  messagingChannels: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'messagingChannel',
   },
