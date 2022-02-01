@@ -1,4 +1,4 @@
-module.exoprts = {
+module.exports = {
   getAllTutors: async () => {},
   getTutorDetails: async () => {},
   filterTutorsByTags: async () => {},

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', questionController.getAllQuestions);
 
-router.post('/', onlyAuthenticated(), questionController.addnewQuestion);
+router.post('/', onlyAuthenticated(), questionController.addNewQuestion);
 
 router.get('/search', questionController.searchForQuestions);
 

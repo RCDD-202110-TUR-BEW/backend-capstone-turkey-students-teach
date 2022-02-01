@@ -1,7 +1,7 @@
 module.exports = {
   getAllQuestions: async () => {},
   getOneQuestion: async () => {},
-  addnewQuestion: async () => {},
+  addNewQuestion: async () => {},
   updateQuestion: async () => {},
   deleteQuestion: async () => {},
   getQuestiosWithSimilarTags: async () => {},
