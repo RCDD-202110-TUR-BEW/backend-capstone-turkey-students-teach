@@ -24,6 +24,7 @@ const messagingChannnelSchema = new Schema(
     {
       contacts: {
         type: [Schema.Types.ObjectId],
+        ref: "Student",
         required: true,
       },
       messages: {
