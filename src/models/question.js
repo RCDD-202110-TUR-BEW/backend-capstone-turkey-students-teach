@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const subject = require('./student');
+const subject = require('./student').subjectSchema;
 
 const question = mongoose.Schema({
   title: {
