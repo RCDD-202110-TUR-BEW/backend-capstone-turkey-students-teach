@@ -52,3 +52,4 @@ const student = mongoose.schema({
 });
 
 module.exports = mongoose.model('Student', student);
+module.exports = mongoose.model('subject', subject);

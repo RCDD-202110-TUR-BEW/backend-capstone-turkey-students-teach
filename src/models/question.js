@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 
-const subject = mongoose.Schema({
-  title: {
-    type: String,
-    enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
-    default: 'Math',
-    required: true,
-  },
-});
+const subject = require('./student');
 
 const question = mongoose.Schema({
   title: {
