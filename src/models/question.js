@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const commentSchema = new Schema(
   {
@@ -9,14 +10,14 @@ const commentSchema = new Schema(
     },
     question: {
       type: Schema.Types.ObjectId,
-      ref: "Question",
+      ref: 'Question',
       required: true,
     },
     creator: {
-        type: Schema.Types.ObjectId,
-        ref: "Student",
-        required: true,
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
+      required: true,
+    },
     isRead: {
       type: Boolean,
       required: true,
@@ -26,13 +27,32 @@ const commentSchema = new Schema(
   { timestamps: true }
 );
 const questionSchema = new Schema(
-    {
-        //  TODO: add question properties
-      comments: {
-        type: [commentSchema],
-        default: [],
-      },
+  {
+    title: {
+      type: String,
+      required: true,
     },
-    { timestamps: true }
-  );
-module.exports = mongoose.model("question", questionSchema);
+    content: {
+      type: String,
+      required: true,
+    },
+    subjects: {
+      type: [String],
+    },
+    isSolved: {
+      type: Boolean,
+      default: false,
+    },
+    comments: {
+      type: [commentSchema],
+      default: [],
+    },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student',
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+module.exports = mongoose.model('Question', questionSchema);

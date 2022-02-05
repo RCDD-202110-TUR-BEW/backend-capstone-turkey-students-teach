@@ -1,15 +1,24 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
+
+const connectToMongo = require('./db/connection');
+
+require('dotenv').config();
+
+const app = express();
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+
 app.use('/', router);
 app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
 
-require('dotenv').config();
-const connectToMongo = require('./db/connection');
-const app = express();
 const port = process.env.NODE_LOCAL_PORT;
 
 app.listen(port, () => {
@@ -19,4 +28,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
