@@ -6,7 +6,7 @@ function filterQuestions(query) {
   return async (_, res) => {
     try {
       // Find and sort by latest
-      const questions = await Question.find(query).sort({ id: -1 }); // {'date:-1'}
+      const questions = await Question.find(query).sort({ _id: -1 }); // {'date:-1'}
       if (!questions) res.status(422).json({ messge: 'No questions found' });
       else res.status(201).json(questions);
     } catch (err) {
