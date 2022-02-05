@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schema;
 const subject = require('./student').subjectSchema;
 
-const question = mongoose.Schema({
+const questionSchema = Schema({
   title: {
     type: String,
     required: true,
@@ -18,14 +18,42 @@ const question = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  // comments: {
-  //   type: [comment]
-  // },
+  comments: {
+    type: [commentSchema],
+    default: [],
+  },
   student: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Student',
     required: true,
   },
-});
 
-module.exports = mongoose.model('Question', question);
+}, { timestamps: true });
+
+const commentSchema = new Schema(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+    question: {
+      type: Schema.Types.ObjectId,
+      ref: "Question",
+      required: true,
+    },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "Student",
+      required: true,
+    },
+    isRead: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("question", questionSchema);
+
