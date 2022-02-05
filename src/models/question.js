@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const subject = require('./student').subjectSchema;
 
-const questionSchema = Schema({
+const questionSchema = new Schema({
   title: {
     type: String,
     required: true,
