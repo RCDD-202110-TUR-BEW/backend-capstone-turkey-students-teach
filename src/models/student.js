@@ -4,7 +4,6 @@ const subject = mongoose.Schema({
   title: {
     type: String,
     enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
-    default: 'Math',
     required: true,
   },
 });
@@ -43,11 +42,11 @@ const student = mongoose.schema({
   },
   questions: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Question',
+    ref: 'question',
   },
   messagingChannels: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'messagingChannel',
+    ref: 'MessagingChannel',
   },
 });
 
