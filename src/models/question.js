@@ -1,34 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 const subject = require('./student').subjectSchema;
-
-const questionSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  subjects: {
-    type: [subject],
-  },
-  isSolved: {
-    type: Boolean,
-    default: false,
-  },
-  comments: {
-    type: [commentSchema],
-    default: [],
-  },
-  student: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Student',
-    required: true,
-  },
-
-}, { timestamps: true });
 
 const commentSchema = new Schema(
   {
@@ -38,12 +11,12 @@ const commentSchema = new Schema(
     },
     question: {
       type: Schema.Types.ObjectId,
-      ref: "Question",
+      ref: 'Question',
       required: true,
     },
     creator: {
       type: Schema.Types.ObjectId,
-      ref: "Student",
+      ref: 'Student',
       required: true,
     },
     isRead: {
@@ -54,6 +27,34 @@ const commentSchema = new Schema(
   },
   { timestamps: true }
 );
+const questionSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    subjects: {
+      type: [subject],
+    },
+    isSolved: {
+      type: Boolean,
+      default: false,
+    },
+    comments: {
+      type: [commentSchema],
+      default: [],
+    },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student',
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("question", questionSchema);
-
+module.exports = mongoose.model('question', questionSchema);

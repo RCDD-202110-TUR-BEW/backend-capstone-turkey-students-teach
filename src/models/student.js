@@ -8,7 +8,7 @@ const subject = mongoose.Schema({
   },
 });
 
-const student = mongoose.schema({
+const student = mongoose.Schema({
   username: {
     type: String,
     required: true,
