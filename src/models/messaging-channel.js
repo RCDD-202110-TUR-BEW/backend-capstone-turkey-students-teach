@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const messageSchema = new Schema(
   {
@@ -9,7 +10,7 @@ const messageSchema = new Schema(
     },
     sender: {
       type: Schema.Types.ObjectId,
-      ref: "Student",
+      ref: 'Student',
       required: true,
     },
     isRead: {
@@ -21,17 +22,17 @@ const messageSchema = new Schema(
   { timestamps: true }
 );
 const messagingChannnelSchema = new Schema(
-    {
-      contacts: {
-        type: [Schema.Types.ObjectId],
-        ref: "Student",
-        required: true,
-      },
-      messages: {
-        type: [messageSchema],
-        default: [],
-      },
+  {
+    contacts: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Student',
+      required: true,
     },
-    { timestamps: true }
-  );
-module.exports = mongoose.model("MessagingChannel", messagingChannnelSchema);
+    messages: {
+      type: [messageSchema],
+      default: [],
+    },
+  },
+  { timestamps: true }
+);
+module.exports = mongoose.model('MessagingChannel', messagingChannnelSchema);
