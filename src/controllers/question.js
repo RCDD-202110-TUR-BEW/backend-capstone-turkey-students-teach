@@ -1,17 +1,33 @@
 const Question = require('../models/question');
 
-async function saveQuestion(req) {
+//  errors messages
+const authorizationError = { message: 'you dont have this authorization' };
+const randomError = { message: 'something went wrong' };
+
+async function saveQuestion(req, type = 'create') {
   let { question } = req;
-  question.title = req.body?.title;
-  question.content = req.body?.content;
-  question.subjects = req.body?.subjects;
-  question.isSolved = req.body?.isSolved;
+  switch (type) {
+    case 'create':
+      question.title = req.body?.title;
+      question.content = req.body?.content;
+      question.subjects = req.body?.subjects;
+      question.isSolved = req.body?.isSolved;
+      question.student = req.user?.id;
+      break;
+    case 'update':
+      question.title = req.body?.title ?? question.title;
+      question.content = req.body?.content ?? question.content;
+      question.subjects = req.body?.subjects ?? question.subjects;
+      question.isSolved = req.body?.isSolved ?? question.isSolved;
+      break;
+    default:
+      break;
+  }
   try {
-    question.student = req.user?.id ?? null;
     question = await question.save();
     return question;
-  } catch (e) {
-    return { error: 'something went wrong' };
+  } catch (error) {
+    return error;
   }
 }
 
@@ -22,34 +38,38 @@ module.exports = {
     try {
       req.question = new Question();
       const resp = await saveQuestion(req);
-      res.json(resp);
-    } catch (e) {
-      res.status(401).json('something went wrong');
+      return res.json(resp);
+    } catch (error) {
+      return res.status(401).json(randomError);
     }
   },
   updateQuestion: async (req, res) => {
     const { id } = req.params;
     try {
       //  check authority for the user
-      if (id && req.user && req.user.id === id) {
+      const question = await Question.findById(id);
+      if (id && req.user.id === question.student.toString()) {
         req.question = await Question.findById(id);
-        const resp = await saveQuestion(req);
-        res.json(resp);
+        const resp = await saveQuestion(req, 'update');
+        return res.json(resp);
       }
-    } catch (e) {
-      res.status(401).json('something went wrong');
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
     }
   },
   deleteQuestion: async (req, res) => {
     const { id } = req.params;
     try {
       //  check authority for the user
-      if (id && req.user && req.user.id === id) {
+      const question = await Question.findById(id);
+      if (id && req.user.id === question.student.toString()) {
         const resp = await Question.findByIdAndDelete(id);
-        res.json(resp);
+        return res.json(resp);
       }
-    } catch (e) {
-      res.status(401).json('something went wrong');
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
     }
   },
   getQuestiosWithSimilarTags: async () => {},
@@ -69,8 +89,8 @@ module.exports = {
       question.comments.push(newComment);
       const resp = await question.save();
       return res.json(resp);
-    } catch (e) {
-      return res.status(401).json('something went wrong');
+    } catch (error) {
+      return res.status(401).json(randomError);
     }
   },
   updateComment: async (req, res) => {
@@ -79,11 +99,15 @@ module.exports = {
     try {
       const question = await Question.findById(id);
       const comment = question.comments.find((c) => c.id === commentid);
-      comment.content = content;
-      const resp = await question.save();
-      return res.json(resp);
-    } catch (e) {
-      return res.status(401).json('something went wrong');
+      //  check authority for the user
+      if (id && req.user.id === comment.creator.toString()) {
+        comment.content = content;
+        const resp = await question.save();
+        return res.json(resp);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
     }
   },
   deleteComment: async (req, res) => {
@@ -91,12 +115,15 @@ module.exports = {
     try {
       const question = await Question.findById(id);
       const comment = question.comments.find((c) => c.id === commentid);
-      const indexOfComment = question.comments.indexOf(comment);
-      question.comments.splice(indexOfComment, 1);
-      const resp = await question.save();
-      return res.json(resp);
-    } catch (e) {
-      return res.status(401).json('something went wrong');
+      if (id && req.user.id === comment.creator.toString()) {
+        const indexOfComment = question.comments.indexOf(comment);
+        question.comments.splice(indexOfComment, 1);
+        const resp = await question.save();
+        return res.json(resp);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
     }
   },
 };
