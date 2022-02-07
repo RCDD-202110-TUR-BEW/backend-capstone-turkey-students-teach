@@ -1,5 +1,7 @@
 module.exports = {
-  getAllTutors: async () => {},
+  getAllTutors: async (_, res) => {
+    res.json('All Tutors');
+  },
   getTutorDetails: async () => {},
   filterTutorsByTags: async () => {},
   searchForTutor: async () => {},

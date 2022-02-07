@@ -8,7 +8,7 @@ router.get('/', questionController.getAllQuestions);
 
 router.post('/', questionController.addNewQuestion); // onlyAuthenticated()
 
-router.get('/search', questionController.searchForQuestions);
+router.get('/search/:text', questionController.searchForQuestions);
 
 router.get('/filter/:tagid', questionController.getQuestiosWithSimilarTags);
 

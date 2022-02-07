@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const connectToMongo = require('./db/connection');
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
@@ -7,6 +8,9 @@ const questionRouter = require('./routes/question');
 
 const app = express();
 const port = process.env.NODE_LOCAL_PORT;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
