@@ -22,8 +22,6 @@
     "google-auth-library": "^7.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
-    "passport": "^0.5.0",
-    "passport-google-oauth20": "^2.0.0",
     "slugify": "^1.6.5",
     "yarn-upgrade-all": "^0.6.1"
   },
