@@ -56,7 +56,6 @@ module.exports = {
       // find student from email
       const student = await StudentModel.findOne({ email });
 
-      console.log(student);
       if (!student) {
         return res.status(400).json({ error: 'wrong email or password' });
       }
