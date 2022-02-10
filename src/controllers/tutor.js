@@ -4,18 +4,18 @@ module.exports = {
   getAllTutors: async (req, res) => {
     try {
       const tutors = await studentModel.find({ isTutor: true });
-      res.json(tutors);
+      res.status(200).json(tutors);
     } catch (e) {
-      res.status(400).send(e);
+      res.status(400).json({ message: e.message });
     }
   },
   getTutorDetails: async (req, res) => {
     const { id } = req.params;
     try {
       const details = await studentModel.findById(id);
-      res.json(details);
+      res.status(200).json(details);
     } catch (e) {
-      res.status(400).send(e);
+      res.status(400).json({ message: e.message });
     }
   },
   filterTutorsByTags: async (req, res) => {
@@ -28,9 +28,9 @@ module.exports = {
           },
         },
       });
-      res.json(tutors);
+      res.status(200).json(tutors);
     } catch (e) {
-      res.status(400).send(e);
+      res.status(400).json({ message: e.message });
     }
   },
   searchForTutor: async (req, res) => {
@@ -52,7 +52,7 @@ module.exports = {
           },
         ],
       });
-      res.json(tutors);
+      res.status(200).json(tutors);
     } catch (e) {
       res.status(400).json({ message: e.message });
     }
