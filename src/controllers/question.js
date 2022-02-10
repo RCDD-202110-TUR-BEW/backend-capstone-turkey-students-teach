@@ -1,15 +1,14 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Question = require('../models/question');
-const subject = require('../models/student').subjectSchema;
 const Student = require('../models/student');
 
 // function filterQuestions(query) {
 //   return async (_, res) => {
 //     try {
 //       // Find and sort by latest
-//       const questions = await Question.find(query).sort({ createdAt: -1 }); // {'date:-1'}
+//       const questions = await Question.find(query); // .sort({ createdAt: -1 });
 //       if (questions) res.status(201).json(questions);
-//       else res.status(422).json({ messge: 'No questions found' });
+//       else res.status(200).json({ messge: 'No questions found' });
 //     } catch (err) {
 //       res.status(422).json({ message: err.message });
 //     }
@@ -20,8 +19,9 @@ const filterQuestions = async (res, query) => {
   try {
     // Find and sort by latest
     const questions = await Question.find(query); // .sort({ createdAt: -1 });
-    if (!questions) res.status(422).json({ messge: 'No questions found' });
-    else res.status(201).json(questions);
+    if (questions.length <= 0) {
+      res.status(200).json({ message: 'No questions found' });
+    } else res.status(200).json(questions);
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
@@ -34,6 +34,7 @@ module.exports = {
     const query = {};
     if (req.user) {
       // find user's subjects
+      // const userId = req.auth.sub;
       const subjects = await Student.findById(req.user.id).select({
         subjects: 1,
       });
@@ -52,21 +53,17 @@ module.exports = {
 
   getOneQuestion: async (req, res) => {
     const { id } = req.params;
-    // check if the provided id is valid
-    if (!mongoose.Types.ObjectId.isValid(id))
-      res.status(422).json('provide valid id parameter please');
-    else {
-      try {
-        const question = await Question.findById(id);
-        if (!question)
-          res
-            .status(422)
-            .json({ message: `The question you are looking for not found` });
-        else res.status(200).json(question);
-      } catch (err) {
-        res.status(422).json({ message: err.message });
-      }
+    try {
+      const question = await Question.findById(id);
+      if (question.length <= 0)
+        res
+          .status(200)
+          .json({ message: `The question you are looking for not found` });
+      else res.status(200).json(question);
+    } catch (err) {
+      res.status(422).json({ message: err.message });
     }
+    // }
   },
   addNewQuestion: async (req, res) => {
     /*
@@ -76,7 +73,7 @@ module.exports = {
     */
     const questionData = req.body;
     // Assign the new question to the current user
-    questionData.student = req.user.id;
+    // questionData.student = req.user.id;
     try {
       const newQuestion = await Question.create(questionData);
       res.status(201).json(newQuestion);
@@ -84,10 +81,9 @@ module.exports = {
       res.status(422).json({ message: err.message });
     }
   },
-  updateQuestion: async () => {},
-  deleteQuestion: async () => {},
+
   getQuestiosWithSimilarTags: async (req, res) => {
-    const { tags } = req.query; // req.query
+    const { tags } = req.query;
     if (!tags)
       res.status(400).json({ message: 'Make sure you choose subjects' });
     else {
@@ -100,17 +96,24 @@ module.exports = {
   searchForQuestions: async (req, res) => {
     // search in question's title and content
     const { text } = req.query;
-    const regEx = new RegExp(text, 'i'); // insensitive
-    try {
-      const question = await Question.find({
-        $or: [{ title: { $regex: regEx } }, { content: { $regex: regEx } }],
-      });
-      if (!question) res.status(422).json('No question found');
-      else res.status(201).json(question);
-    } catch (err) {
-      res.status(422).json({ message: err.message });
+    if (!text)
+      res.status(400).json({ message: 'Make sure you type search text' });
+    else {
+      const regEx = new RegExp(text, 'i'); // insensitive
+      try {
+        const question = await Question.find({
+          $or: [{ title: { $regex: regEx } }, { content: { $regex: regEx } }],
+        });
+        if (!question) res.status(422).json('No question found');
+        else res.status(200).json(question);
+      } catch (err) {
+        res.status(422).json({ message: err.message });
+      }
     }
   },
+
+  updateQuestion: async () => {},
+  deleteQuestion: async () => {},
   addComment: async () => {},
   updateComment: async () => {},
   deleteComment: async () => {},

@@ -9,10 +9,10 @@ const connectToMongo = async () => {
       useUnifiedTopology: true,
     });
     // eslint-disable-next-line no-console
-    console.log('Database connected: ', url);
+    // console.log('Database connected: ', url);
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('Database connection error: ', err);
+    // console.error('Database connection error: ', err);
   }
 
   const db = mongoose.connection;
@@ -20,7 +20,7 @@ const connectToMongo = async () => {
   // To handle errors after initial connection was established
   db.on('error', (err) => {
     // eslint-disable-next-line no-console
-    console.error('Database connection error: ', err);
+    // console.error('Database connection error: ', err);
   });
 };
 
