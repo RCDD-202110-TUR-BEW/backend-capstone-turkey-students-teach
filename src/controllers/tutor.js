@@ -35,13 +35,26 @@ module.exports = {
   },
   searchForTutor: async (req, res) => {
     const { tutorName } = req.query;
+    let firstName = tutorName.toLowerCase();
+    let lastName = tutorName.toLowerCase();
+
+    if (tutorName.indexOf(' ') !== -1) {
+      [firstName, lastName] = tutorName.toLowerCase().split(' ');
+    }
+
     try {
       const tutors = await studentModel.find({
-        $or: [{ firstName: tutorName }, { lastName: tutorName }],
+        $or: [
+          { firstName },
+          { lastName },
+          {
+            $and: [{ firstName }, { lastName }],
+          },
+        ],
       });
       res.json(tutors);
     } catch (e) {
-      res.status(400).send(e);
+      res.status(400).json({ message: e.message });
     }
   },
   editProfile: async () => {},
