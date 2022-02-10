@@ -167,7 +167,7 @@ module.exports = {
 
     const { email, picture } = payload;
     const firstName = payload.given_name;
-    const lastName = payload.given_name;
+    const lastName = payload.family_name;
 
     try {
       // Check existing student with given email
