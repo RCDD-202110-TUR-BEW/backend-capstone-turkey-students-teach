@@ -2,13 +2,13 @@
 const request = require('supertest');
 const { expect } = require('chai');
 
-const app = require('../../app');
+const app = require('../app');
 
 const studentId = '61fdde6a0699c9e26619b5a6';
 const questionId = [];
 const commentId = [];
 
-jest.mock('../../middleware/onlyAuthenticated', () =>
+jest.mock('../middleware/onlyAuthenticated', () =>
   jest.fn((req, res, next) => {
     req.user = { id: studentId };
     next();
