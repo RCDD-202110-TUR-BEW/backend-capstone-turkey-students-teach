@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../../app');
 const QuestionModel = require('../../models/question');
 // const StudentModel = require('../../models/student');
-
+jest.setTimeout(5000);
 const mockQuestions = [
   {
     _id: mongoose.Types.ObjectId().toString(),
@@ -48,22 +48,12 @@ const user = {
   email: 'user@gmail.com',
   password: 'userpasswordI',
 };
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 // 1. Test getAllQuestions function
 describe('Get /questions', () => {
-  // it('should return all questions does exist in the database and related to specific users', async () => {
-  //   const subject = { title: 'Maht' };
-  //   QuestionModel.find = jest.fn().mockReturnValue(mockQuestions[1]);
-  //   StudentModel.findById = jest.fn().mockReturnValue(subject);
-  //   await request(app)
-  //     .get('/questions')
-  //     .set('Content-Type', 'application/json')
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(expect.objectContaining(mockQuestions[1]));
-  //     });
-  //   expect(QuestionModel.find).toHaveBeenCalledTimes(1);
-  // expect(StudentModel.findById).toHaveBeenCalledTimes(1);
-  // });
   it('should return all questions does exist in the database when no logged in user', async () => {
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
     await request(app)
@@ -76,7 +66,7 @@ describe('Get /questions', () => {
       });
     expect(QuestionModel.find).toHaveBeenCalledTimes(1);
   });
-  it('should return message when no questions found in the database', async () => {
+  it('should return message if no questions found in the database', async () => {
     QuestionModel.find = jest.fn().mockReturnValue([]);
     await request(app)
       .get('/questions')

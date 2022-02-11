@@ -47,6 +47,7 @@ module.exports = {
     }
     // if not registered user get all questions ordered by date (recent questions)
     else {
+      // console.log('Heeeeellllo');
       filterQuestions(res, query);
     }
   },
