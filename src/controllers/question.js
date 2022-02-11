@@ -38,7 +38,7 @@ module.exports = {
     try {
       req.question = new Question();
       const resp = await saveQuestion(req);
-      return res.json(resp);
+      return res.status(200).json(resp);
     } catch (error) {
       return res.status(401).json(randomError);
     }
@@ -51,7 +51,7 @@ module.exports = {
       if (id && req.user.id === question.student.toString()) {
         req.question = await Question.findById(id);
         const resp = await saveQuestion(req, 'update');
-        return res.json(resp);
+        return res.status(200).json(resp);
       }
       throw authorizationError;
     } catch (error) {
@@ -65,7 +65,7 @@ module.exports = {
       const question = await Question.findById(id);
       if (id && req.user.id === question.student.toString()) {
         const resp = await Question.findByIdAndDelete(id);
-        return res.json(resp);
+        return res.status(200).json(resp);
       }
       throw authorizationError;
     } catch (error) {
@@ -88,7 +88,7 @@ module.exports = {
       };
       question.comments.push(newComment);
       const resp = await question.save();
-      return res.json(resp);
+      return res.status(200).json(resp);
     } catch (error) {
       return res.status(401).json(randomError);
     }
@@ -103,7 +103,7 @@ module.exports = {
       if (id && req.user.id === comment.creator.toString()) {
         comment.content = content;
         const resp = await question.save();
-        return res.json(resp);
+        return res.status(200).json(resp);
       }
       throw authorizationError;
     } catch (error) {
@@ -119,7 +119,7 @@ module.exports = {
         const indexOfComment = question.comments.indexOf(comment);
         question.comments.splice(indexOfComment, 1);
         const resp = await question.save();
-        return res.json(resp);
+        return res.status(200).json(resp);
       }
       throw authorizationError;
     } catch (error) {

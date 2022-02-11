@@ -2,10 +2,18 @@
 const request = require('supertest');
 const { expect } = require('chai');
 
-const jwt = require('jsonwebtoken');
 const app = require('../../app');
 
-const { onlyAuthenticated } = require('../../middleware/onlyAuthenticated');
+const studentId = '61fdde6a0699c9e26619b5a6';
+const questionId = [];
+const commentId = [];
+
+jest.mock('../../middleware/onlyAuthenticated', () =>
+  jest.fn((req, res, next) => {
+    req.user = { id: studentId };
+    next();
+  })
+);
 
 const question = [
   {
@@ -18,28 +26,48 @@ const question = [
   {
     title: 'new question',
     content: 'question content',
-    student: '61fdde6a0699c9e26619b5a6',
+    student: 'z1fdde6a0699c9e26610c5ac',
   },
   {
-    title: 'new question',
+    title: 'should not be updated',
+    content: 'should not be updated',
+    subjects: ['should not be updated'],
+    isSolved: false,
+    student: '61fdde6a0699c9e26619b5a6',
   },
 ];
 
-const comment = {
-  content: 'new comment',
-};
-const studentId = '61fdde6a0699c9e26619b5a6';
-const questionId = '61fde3daa7b0e2fbd623b975';
-const commentId = '61fde3daa7b0e2fbd623b975';
+const comment = [
+  {
+    content: 'new comment',
+  },
+  {
+    content: 'updated comment',
+  },
+];
+async function initializeDatabase() {
+  const agentUser1 = request.agent(app);
+  const res = await agentUser1
+    .post('/questions')
+    .type('form')
+    .send(question[0]);
+  // eslint-disable-next-line no-underscore-dangle
+  questionId.push(res.body._id);
+  questionId.push(`${questionId[0].substring(0, questionId[0].length - 3)}asd`);
+}
+function clearDatabase() {}
 
-describe('Creating new question', () => {
+beforeAll(async () => {
+  await initializeDatabase();
+});
+
+afterAll(() => {
+  //  clearDatabase();
+});
+describe('update a question', () => {
   it('PUT /question/:id should update the question and return the updated question in the response', (done) => {
-    const spyOnVerify = jest.spyOn(jwt, 'verify');
-    spyOnVerify.mockImplementation((a, b) => ({
-      id: studentId,
-    }));
     request(app)
-      .put(`/questions/${questionId}`)
+      .put(`/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(question[0])
@@ -54,6 +82,154 @@ describe('Creating new question', () => {
         expect(res.body.isSolved).to.equal(question[0].isSolved);
         done();
       });
-    spyOnVerify.mockRestore();
+  });
+  it('PUT /question/:id should update question with one or more attributes and should not update student reference', (done) => {
+    request(app)
+      .put(`/questions/${questionId[0]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(question[1])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.title).to.equal(question[1].title);
+        expect(res.body.content).to.equal(question[1].content);
+        expect(res.body.student).not.to.equal(question[1].student);
+        done();
+      });
+  });
+  it('PUT /question/:id should not update question if there is no authorization', (done) => {
+    request(app)
+      .put(`/questions/${questionId[1]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(question[1])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(401, (err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+});
+
+describe('create a comment', () => {
+  it('POST /:id/comments should create a new comment and return the question in the response', (done) => {
+    request(app)
+      .post(`/questions/${questionId[0]}/comments`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(comment[0])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.comments[0].content).to.equal(comment[0].content);
+        done();
+      });
+  });
+  it('POST /:id/comments should create more than one comments on a question and return the question in the response', (done) => {
+    request(app)
+      .post(`/questions/${questionId[0]}/comments`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(comment[0])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.comments.length).to.equal(2);
+        // eslint-disable-next-line no-underscore-dangle
+        commentId.push(res.body.comments[0]._id);
+        commentId.push(
+          `${commentId[0].substring(0, commentId[0].length - 3)}asd`
+        );
+        done();
+      });
+  });
+});
+
+describe('update a comment', () => {
+  it('PUT /:id/comments/:commentid should update the comment and return the updated question in the response', (done) => {
+    request(app)
+      .put(`/questions/${questionId[0]}/comments/${commentId[0]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(comment[1])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.comments[0].content).to.equal(comment[1].content);
+        done();
+      });
+  });
+  it('PUT /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+    request(app)
+      .put(`/questions/${questionId[0]}/comments/${commentId[1]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .send(comment[1])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(401, (err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+});
+describe('delete a comment', () => {
+  it('DELETE /:id/comments/:commentid should delete the comment and return the updated question in the response', (done) => {
+    request(app)
+      .delete(`/questions/${questionId[0]}/comments/${commentId[0]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+  it('DELETE /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+    request(app)
+      .delete(`/questions/${questionId[0]}/comments/${commentId[1]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(401, (err, res) => {
+        if (err) return done(err);
+        done();
+      });
+  });
+});
+describe('delete a question', () => {
+  it('DELETE /question/:id should delete the question and return the deleted question in the response', (done) => {
+    request(app)
+      .delete(`/questions/${questionId[0]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        // eslint-disable-next-line no-underscore-dangle
+        expect(res.body._id).to.equal(questionId[0]);
+        done();
+      });
+  });
+  it('DELETE /question/:id should not DELETE question if there is no authorization', (done) => {
+    request(app)
+      .put(`/questions/${questionId[1]}`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', ['accessToken=12345667'])
+      .expect('Content-Type', /json/)
+      // eslint-disable-next-line consistent-return
+      .expect(401, (err, res) => {
+        if (err) return done(err);
+        done();
+      });
   });
 });
