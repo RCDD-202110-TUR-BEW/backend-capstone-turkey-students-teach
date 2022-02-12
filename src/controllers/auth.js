@@ -34,7 +34,7 @@ async function getUniqueUserName(proposedName) {
   const student = await StudentModel.findOne({ username });
   if (student) {
     // if student exist call function again with adding random numbers
-    const newProposedName = proposedName + Math.floor(Math.random() * 100 + 1);
+    const newProposedName = username + Math.floor(Math.random() * 100 + 1);
     return getUniqueUserName(newProposedName);
   }
   // if student not exist return username
@@ -46,7 +46,7 @@ module.exports = {
     const { email, password } = req.body;
 
     // check username and password
-    if (!email && !password) {
+    if (!email || !password) {
       return res
         .status(400)
         .json({ error: 'email and password fields are required' });
@@ -87,19 +87,17 @@ module.exports = {
 
     // password are required,
     // length should longer than 6 characters
-    if (!password || password.length < 6) {
+    if (!password || password.length < 8) {
       return res
         .status(400)
-        .json({ error: 'password should longer than 6 characters' });
+        .json({ error: 'password should longer than 8 characters' });
     }
 
     // Check existing student with given email
     try {
       const existingStudent = await StudentModel.findOne({ email });
       if (existingStudent) {
-        return res
-          .status(400)
-          .json({ error: `${email}: already used for signup` });
+        return res.status(400).json({ error: `${email}: email already exist` });
       }
     } catch (error) {
       return res.status(400).json({ error });

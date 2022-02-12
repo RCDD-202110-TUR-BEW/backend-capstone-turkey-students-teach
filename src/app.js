@@ -4,8 +4,10 @@ const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
 const authRouter = require('./routes/auth');
+const connectToMongo = require('./db/connection');
 
 const app = express();
+const port = process.env.NODE_LOCAL_PORT;
 
 app.set('view engine', 'ejs');
 
@@ -20,4 +22,10 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-module.exports = app;
+const server = app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server listening on port ${port}`);
+  connectToMongo();
+});
+
+module.exports = { app, server };

@@ -1,13 +1,10 @@
-require('../app');
-require('dotenv').config();
-
 /** mocked dependencies */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const { StudentModel } = require('../models/student');
 const authController = require('./auth');
-require('../app');
+const { server } = require('../app');
 
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
@@ -63,6 +60,10 @@ jwt.sign = jest.fn().mockReturnValue(token);
 
 afterEach(() => {
   jest.clearAllMocks();
+});
+
+afterAll(() => {
+  server.close();
 });
 
 describe('Sign in method', () => {
@@ -171,7 +172,7 @@ describe('Signup method', () => {
     expect(jwt.sign).not.toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: `${req.body.email}: already used for signup`,
+      error: `${req.body.email}: email already exist`,
     });
   });
 });
