@@ -18,10 +18,6 @@ app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
 
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server listening on port ${port}`);
