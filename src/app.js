@@ -9,8 +9,7 @@ const questionRouter = require('./routes/question');
 const app = express();
 const port = process.env.NODE_LOCAL_PORT;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
