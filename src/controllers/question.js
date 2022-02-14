@@ -40,7 +40,7 @@ module.exports = {
     const { id } = req.params;
     try {
       const question = await Question.findById(id);
-      if (question.length <= 0)
+      if (!question)
         res
           .status(200)
           .json({ message: `The question you are looking for not found` });
