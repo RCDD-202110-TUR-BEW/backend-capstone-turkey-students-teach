@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
+const jwt = require('express-jwt');
 
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
@@ -13,7 +13,12 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cookieParser());
+app.use(
+  jwt({
+    secret: process.env.SECRET_KEY,
+    algorithms: ['HS256'],
+  })
+);
 
 app.use('/', router);
 app.use('/tutors', tutorRouter);

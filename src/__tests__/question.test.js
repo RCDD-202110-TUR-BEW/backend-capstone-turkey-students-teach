@@ -55,7 +55,6 @@ async function initializeDatabase() {
   questionId.push(res.body._id);
   questionId.push(`${questionId[0].substring(0, questionId[0].length - 3)}asd`);
 }
-function clearDatabase() {}
 
 beforeAll(async () => {
   await initializeDatabase();

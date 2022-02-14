@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 //  error messages
 const sessionNotFoundError = {
-  meesage: 'There is no session; please sign in.',
+  meesage: 'you are not signed in. Please sign in',
 };
 
 module.exports = function onlyAuthenticated(req, res, next) {

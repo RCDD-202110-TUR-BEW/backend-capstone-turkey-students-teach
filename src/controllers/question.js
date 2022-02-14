@@ -37,8 +37,8 @@ module.exports = {
   addNewQuestion: async (req, res) => {
     try {
       req.question = new Question();
-      const resp = await saveQuestion(req);
-      return res.status(200).json(resp);
+      const newQuestion = await saveQuestion(req);
+      return res.status(200).json(newQuestion);
     } catch (error) {
       return res.status(401).json(randomError);
     }
@@ -50,8 +50,8 @@ module.exports = {
       const question = await Question.findById(id);
       if (id && req.user.id === question.student.toString()) {
         req.question = await Question.findById(id);
-        const resp = await saveQuestion(req, 'update');
-        return res.status(200).json(resp);
+        const updatedQuestion = await saveQuestion(req, 'update');
+        return res.status(200).json(updatedQuestion);
       }
       throw authorizationError;
     } catch (error) {
@@ -64,8 +64,8 @@ module.exports = {
       //  check authority for the user
       const question = await Question.findById(id);
       if (id && req.user.id === question.student.toString()) {
-        const resp = await Question.findByIdAndDelete(id);
-        return res.status(200).json(resp);
+        const deletedQuestion = await Question.findByIdAndDelete(id);
+        return res.status(200).json(deletedQuestion);
       }
       throw authorizationError;
     } catch (error) {
@@ -87,8 +87,8 @@ module.exports = {
         isRead: false,
       };
       question.comments.push(newComment);
-      const resp = await question.save();
-      return res.status(200).json(resp);
+      const updatedQuestion = await question.save();
+      return res.status(200).json(updatedQuestion);
     } catch (error) {
       return res.status(401).json(randomError);
     }
@@ -102,8 +102,8 @@ module.exports = {
       //  check authority for the user
       if (id && req.user.id === comment.creator.toString()) {
         comment.content = content;
-        const resp = await question.save();
-        return res.status(200).json(resp);
+        const updatedQuestion = await question.save();
+        return res.status(200).json(updatedQuestion);
       }
       throw authorizationError;
     } catch (error) {
@@ -118,8 +118,8 @@ module.exports = {
       if (id && req.user.id === comment.creator.toString()) {
         const indexOfComment = question.comments.indexOf(comment);
         question.comments.splice(indexOfComment, 1);
-        const resp = await question.save();
-        return res.status(200).json(resp);
+        const updatedQuestion = await question.save();
+        return res.status(200).json(updatedQuestion);
       }
       throw authorizationError;
     } catch (error) {

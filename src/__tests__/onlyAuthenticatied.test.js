@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-const jwt = require('jsonwebtoken');
 const onlyAuthenticated = require('../middleware/onlyAuthenticated');
 
 describe('only authenticated middleware', () => {
