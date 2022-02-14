@@ -97,7 +97,6 @@ describe('Get /questions', () => {
     await request(app)
       .get('/questions')
       .set('Content-Type', 'application/json')
-      // .set('Cookies', '12345667ghgfhythjyj')
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual(expect.objectContaining(mockQuestions));
@@ -132,7 +131,7 @@ describe('Get /questions/:id', () => {
     expect(QuestionModel.findById).toHaveBeenCalledTimes(1);
   });
   it('should return message when no question found in the database', async () => {
-    QuestionModel.findById = jest.fn().mockReturnValue([]);
+    QuestionModel.findById = jest.fn().mockReturnValue(null);
     await request(app)
       .get('/questions/id')
       .set('Content-Type', 'application/json')
