@@ -2,19 +2,6 @@
 const Question = require('../models/question');
 const Student = require('../models/student');
 
-// function filterQuestions(query) {
-//   return async (_, res) => {
-//     try {
-//       // Find and sort by latest
-//       const questions = await Question.find(query); // .sort({ createdAt: -1 });
-//       if (questions) res.status(201).json(questions);
-//       else res.status(200).json({ messge: 'No questions found' });
-//     } catch (err) {
-//       res.status(422).json({ message: err.message });
-//     }
-//   };
-// }
-
 const filterQuestions = async (res, query) => {
   try {
     // Find and sort by latest
@@ -34,20 +21,17 @@ module.exports = {
     const query = {};
     if (req.user) {
       // find user's subjects
-      // const userId = req.auth.sub;
-      const subjects = await Student.findById(req.user.id).select({
-        subjects: 1,
-      });
+      const student = await Student.findById(req.user.id);
       // if user has no subject then get all questions ordered by date
-      if (!subjects) filterQuestions(res, query);
-      else {
-        query.subjetc = subjects;
+      if (!student.subjects) {
+        filterQuestions(res, query);
+      } else {
+        query['subjects.title'] = student.subjects.title;
         filterQuestions(res, query);
       }
     }
     // if not registered user get all questions ordered by date (recent questions)
     else {
-      // console.log('Heeeeellllo');
       filterQuestions(res, query);
     }
   },
@@ -64,7 +48,6 @@ module.exports = {
     } catch (err) {
       res.status(422).json({ message: err.message });
     }
-    // }
   },
   addNewQuestion: async (req, res) => {
     /*
@@ -74,7 +57,7 @@ module.exports = {
     */
     const questionData = req.body;
     // Assign the new question to the current user
-    // questionData.student = req.user.id;
+    questionData.student = req.user.id;
     try {
       const newQuestion = await Question.create(questionData);
       res.status(201).json(newQuestion);
@@ -101,15 +84,10 @@ module.exports = {
       res.status(400).json({ message: 'Make sure you type search text' });
     else {
       const regEx = new RegExp(text, 'i'); // insensitive
-      try {
-        const question = await Question.find({
-          $or: [{ title: { $regex: regEx } }, { content: { $regex: regEx } }],
-        });
-        if (!question) res.status(422).json('No question found');
-        else res.status(200).json(question);
-      } catch (err) {
-        res.status(422).json({ message: err.message });
-      }
+      const query = {
+        $or: [{ title: { $regex: regEx } }, { content: { $regex: regEx } }],
+      };
+      filterQuestions(res, query);
     }
   },
 

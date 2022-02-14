@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
+/* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const app = require('../../app');
 const QuestionModel = require('../../models/question');
-// const StudentModel = require('../../models/student');
-jest.setTimeout(5000);
+const StudentModel = require('../../models/student');
+
+const loggeStudentId = '61fde3daa7f0f2fbd623b97a';
 const mockQuestions = [
   {
-    _id: mongoose.Types.ObjectId().toString(),
+    _id: '61ade3daa7f0f2fbd623b97a',
     title: 'Mathematics Question',
     content: 'algebra question content',
     isSolved: false,
@@ -15,7 +16,7 @@ const mockQuestions = [
     student: '61fde3daa7f0f2fbd623b97a',
   },
   {
-    _id: mongoose.Types.ObjectId().toString(),
+    _id: '61bde3daa7f0f2fbd623b97a',
     title: 'Math Question',
     content: 'Math question content',
     isSolved: false,
@@ -24,7 +25,7 @@ const mockQuestions = [
     student: '61fde3daa7f0f2fbd623b97b',
   },
   {
-    _id: mongoose.Types.ObjectId().toString(),
+    _id: '61cde3daa7f0f2fbd623b97a',
     title: 'Programming Question',
     content: 'Programming content',
     isSolved: false,
@@ -34,7 +35,7 @@ const mockQuestions = [
   },
 ];
 const missedTitleQuestion = {
-  _id: mongoose.Types.ObjectId().toString(),
+  _id: '61dde3daa7f0f2fbd623b97a',
   content: 'Any content',
   isSolved: false,
   comments: [],
@@ -42,23 +43,61 @@ const missedTitleQuestion = {
   student: '61fde3daa7f0f2fbd623b98e',
 };
 const mockError = new Error();
-
-const user = {
-  id: '61fde3daa7f0f2fbd623b97b',
-  email: 'user@gmail.com',
-  password: 'userpasswordI',
+const mockUser = {
+  _id: '61fde3daa7f0f2fbd623b97a',
+  username: 'inas',
+  firstName: 'inas',
+  lastName: 'alarabi',
+  passwordHash: 'jfkjmdshfkds',
+  email: 'email@gmail.com',
+  isTutor: true,
 };
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
+jest.mock('../../middleware/onlyAuthenticated', () =>
+  jest.fn((req, res, next) => {
+    req.user = { id: loggeStudentId };
+    next();
+  })
+);
+
 // 1. Test getAllQuestions function
 describe('Get /questions', () => {
+  it('should return all questions related to the logged user', async () => {
+    mockUser.subjects = { title: 'Math' };
+    StudentModel.findById = jest.fn().mockReturnValue(mockUser);
+    QuestionModel.find = jest.fn().mockReturnValue(mockQuestions.slice(0, 2));
+    await request(app)
+      .get('/questions')
+      .set('Content-Type', 'application/json')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(mockQuestions.slice(0, 2))
+        );
+      });
+    expect(StudentModel.findById).toHaveBeenCalledTimes(1);
+    expect(QuestionModel.find).toHaveBeenCalledTimes(1);
+  });
+  it('should return all the questions if the logeed user has no subjects', async () => {
+    StudentModel.findById = jest.fn().mockReturnValue(mockUser);
+    QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
+    await request(app)
+      .get('/questions')
+      .set('Content-Type', 'application/json')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(mockQuestions));
+        expect(res.body.length).toEqual(3);
+      });
+    expect(StudentModel.findById).toHaveBeenCalledTimes(1);
+    expect(QuestionModel.find).toHaveBeenCalledTimes(1);
+  });
   it('should return all questions does exist in the database when no logged in user', async () => {
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
     await request(app)
       .get('/questions')
       .set('Content-Type', 'application/json')
+      // .set('Cookies', '12345667ghgfhythjyj')
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual(expect.objectContaining(mockQuestions));
@@ -109,15 +148,17 @@ describe('Get /questions/:id', () => {
 
 // 3. Test addNewQuestion function
 describe('Post /questions', () => {
-  it('should create new question', async () => {
+  it('should create new question and assign it to the current user', async () => {
+    const { title, content, subjects } = mockQuestions[0];
     QuestionModel.create = jest.fn().mockReturnValue(mockQuestions[0]);
     await request(app)
       .post('/questions')
       .set('Content-Type', 'application/json')
-      .send(mockQuestions[0])
+      .send({ title, content, subjects })
       .expect(201)
       .expect((res) => {
         expect(res.body).toEqual(expect.objectContaining(mockQuestions[0]));
+        expect(res.body.student).toEqual(loggeStudentId);
       });
     expect(QuestionModel.create).toHaveBeenCalledTimes(1);
   });
