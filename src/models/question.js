@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+
 const { subjectSchema } = require('./student');
 
 const { Schema } = mongoose;
+
 
 const commentSchema = new Schema(
   {

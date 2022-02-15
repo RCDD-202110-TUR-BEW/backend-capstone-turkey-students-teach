@@ -21,6 +21,7 @@ const messageSchema = new Schema(
   },
   { timestamps: true }
 );
+
 const messagingChannelSchema = new Schema(
   {
     contacts: {
@@ -35,4 +36,5 @@ const messagingChannelSchema = new Schema(
   },
   { timestamps: true }
 );
+
 module.exports = mongoose.model('MessagingChannel', messagingChannelSchema);
