@@ -7,6 +7,9 @@ const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const port = process.env.NODE_LOCAL_PORT;
 
 app.use('/', router);
