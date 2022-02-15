@@ -8,13 +8,11 @@ router.get('/', questionController.getAllQuestions);
 
 router.post('/', onlyAuthenticated, questionController.addNewQuestion);
 
-
 router.get('/search', questionController.searchForQuestions);
 
 router.get('/filter/:tagid', questionController.getQuestiosWithSimilarTags);
 
 router.get('/:id', questionController.getOneQuestion);
-
 
 router.put('/:id', onlyAuthenticated, questionController.updateQuestion);
 

@@ -1,6 +1,6 @@
 const request = require('supertest');
 const { expect } = require('chai');
-const app = require('../../app');
+const { app } = require('../../app');
 
 const userIds = ['6203f2015b8b83c4b99a1ee2', '6203f29bd418ecc175b73989'];
 const chatIds = ['620ba249fbfc2e688b4ac178'];

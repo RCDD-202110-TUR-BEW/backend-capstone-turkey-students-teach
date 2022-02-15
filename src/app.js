@@ -7,13 +7,11 @@ const questionRouter = require('./routes/question');
 const authRouter = require('./routes/auth');
 const connectToMongo = require('./db/connection');
 
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.NODE_LOCAL_PORT;
-
 
 app.set('view engine', 'ejs');
 
