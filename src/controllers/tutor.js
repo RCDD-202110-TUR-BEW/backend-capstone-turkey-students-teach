@@ -35,21 +35,22 @@ module.exports = {
   },
   searchForTutor: async (req, res) => {
     const { tutorName } = req.query;
-    let firstName = tutorName.toLowerCase();
-    let lastName = tutorName.toLowerCase();
 
-    if (tutorName.indexOf(' ') !== -1) {
-      [firstName, lastName] = tutorName.toLowerCase().split(' ');
-    }
+    const [firstName, lastName] = tutorName.toLowerCase().split(' ');
 
     try {
       const tutors = await studentModel.find({
-        $or: [
-          { firstName },
-          { lastName },
+        $and: [
           {
-            $and: [{ firstName }, { lastName }],
+            $or: [
+              { firstName },
+              { lastName: lastName !== undefined ? lastName : firstName },
+              {
+                $and: [{ firstName }, { lastName }],
+              },
+            ],
           },
+          { isTutor: true },
         ],
       });
       res.status(200).json(tutors);
