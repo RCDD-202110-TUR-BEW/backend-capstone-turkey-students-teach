@@ -106,7 +106,7 @@ describe('update a question', () => {
       .send(question[1])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err, res) => {
+      .expect(401, (err) => {
         if (err) return done(err);
         done();
       });
@@ -172,7 +172,7 @@ describe('update a comment', () => {
       .send(comment[1])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err, res) => {
+      .expect(401, (err) => {
         if (err) return done(err);
         done();
       });
@@ -186,7 +186,7 @@ describe('delete a comment', () => {
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(200, (err, res) => {
+      .expect(200, (err) => {
         if (err) return done(err);
         done();
       });
@@ -198,7 +198,7 @@ describe('delete a comment', () => {
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err, res) => {
+      .expect(401, (err) => {
         if (err) return done(err);
         done();
       });
@@ -226,7 +226,7 @@ describe('delete a question', () => {
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err, res) => {
+      .expect(401, (err) => {
         if (err) return done(err);
         done();
       });
