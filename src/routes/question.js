@@ -1,5 +1,5 @@
 const express = require('express');
-// const onlyAuthenticated = require('../middleware/onlyAuthenticated');
+const onlyAuthenticated = require('../middleware/onlyAuthenticated');
 const questionController = require('../controllers/question');
 
 const router = express.Router();
