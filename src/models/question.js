@@ -56,5 +56,4 @@ const questionSchema = new Schema(
   },
   { timestamps: true }
 );
-
 module.exports = mongoose.model('question', questionSchema);

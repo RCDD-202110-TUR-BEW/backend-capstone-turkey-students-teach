@@ -17,3 +17,5 @@ module.exports = function onlyAuthenticated(req, res, next) {
     res.status(401).json(err);
   }
 };
+module.exports = onlyAuthenticated;
+
