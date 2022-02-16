@@ -17,8 +17,8 @@
   "dependencies": {
     "chai": "^4.3.6",
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
     "dotenv": "^14.2.0",
-    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
@@ -40,7 +40,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
-    "jest": "^27.4.7",
+    "jest": "^27.5.1",
     "lint-staged": "^12.3.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
