@@ -8,7 +8,7 @@ const subject = mongoose.Schema({
   },
 });
 
-const student = mongoose.schema({
+const student = mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -22,13 +22,20 @@ const student = mongoose.schema({
     type: String,
     required: true,
   },
+  isSignUpWithGoogle: {
+    type: Boolean,
+    default: false,
+  },
   passwordHash: {
     type: String,
-    required: true,
+    required() {
+      return this.isSignUpWithGoogle === false;
+    },
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   isTutor: {
     type: Boolean,
@@ -50,7 +57,17 @@ const student = mongoose.schema({
   },
 });
 
+// Prevent password to send
+student.set('toJSON', {
+  transform(doc, ret, opt) {
+    // eslint-disable-next-line no-param-reassign
+    delete ret.passwordHash;
+    return ret;
+  },
+});
+
 module.exports = {
   studentModel: mongoose.model('Student', student),
+  StudentModel: mongoose.model('Student', student),
   subjectSchema: subject,
 };

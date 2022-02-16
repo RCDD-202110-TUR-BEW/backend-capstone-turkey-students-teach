@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-
+const subject = mongoose.Schema({
+  title: {
+    type: String,
+    enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
+    required: true,
+  },
+});
 const commentSchema = new Schema(
   {
     content: {
@@ -26,6 +32,7 @@ const commentSchema = new Schema(
   },
   { timestamps: true }
 );
+
 const questionSchema = new Schema(
   {
     title: {
@@ -37,7 +44,7 @@ const questionSchema = new Schema(
       required: true,
     },
     subjects: {
-      type: [String],
+      type: [subject],
     },
     isSolved: {
       type: Boolean,

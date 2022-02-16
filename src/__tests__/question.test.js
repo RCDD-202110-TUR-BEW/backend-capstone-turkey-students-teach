@@ -2,7 +2,7 @@
 const request = require('supertest');
 const { expect } = require('chai');
 
-const app = require('../app');
+const { app } = require('../app');
 
 const studentId = '61fdde6a0699c9e26619b5a6';
 const questionId = [];
@@ -19,7 +19,7 @@ const question = [
   {
     title: 'new question',
     content: 'question content',
-    subjects: ['math'],
+    subjects: [{ title: 'Math' }],
     isSolved: false,
     student: '61fdde6a0699c9e26619b5a6',
   },
@@ -31,7 +31,7 @@ const question = [
   {
     title: 'should not be updated',
     content: 'should not be updated',
-    subjects: ['should not be updated'],
+    subjects: [{ title: 'Math' }],
     isSolved: false,
     student: '61fdde6a0699c9e26619b5a6',
   },
@@ -77,7 +77,9 @@ describe('update a question', () => {
         expect(res.body.title).to.equal(question[0].title);
         expect(res.body.content).to.equal(question[0].content);
         expect(res.body.student).to.equal(question[0].student);
-        expect(res.body.subjects).to.deep.equal(question[0].subjects);
+        expect(res.body.subjects[0].title).to.deep.equal(
+          question[0].subjects[0].title
+        );
         expect(res.body.isSolved).to.equal(question[0].isSolved);
         done();
       });
