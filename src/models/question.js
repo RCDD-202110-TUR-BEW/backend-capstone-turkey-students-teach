@@ -27,7 +27,6 @@ const commentSchema = new Schema(
   },
   { timestamps: true }
 );
-
 const questionSchema = new Schema(
   {
     title: {
