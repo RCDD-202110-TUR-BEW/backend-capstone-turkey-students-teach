@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const { subjectSchema } = require('./student');
 
 const { Schema } = mongoose;
+const subject = require('./student').subjectSchema;
 
 const commentSchema = new Schema(
   {
@@ -27,7 +27,6 @@ const commentSchema = new Schema(
   },
   { timestamps: true }
 );
-
 const questionSchema = new Schema(
   {
     title: {
@@ -39,7 +38,7 @@ const questionSchema = new Schema(
       required: true,
     },
     subjects: {
-      type: [subjectSchema],
+      type: [subject],
     },
     isSolved: {
       type: Boolean,
