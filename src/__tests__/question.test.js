@@ -3,6 +3,7 @@ const request = require('supertest');
 const { expect } = require('chai');
 
 const { app } = require('../app');
+const { server } = require('../app');
 
 const studentId = '61fdde6a0699c9e26619b5a6';
 const questionId = [];
@@ -61,7 +62,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  //  clearDatabase();
+  server.close();
 });
 describe('update a question', () => {
   it('PUT /question/:id should update the question and return the updated question in the response', (done) => {
