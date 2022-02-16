@@ -65,7 +65,7 @@ afterAll(() => {
   server.close();
 });
 describe('update a question', () => {
-  it('PUT /question/:id should update the question and return the updated question in the response', (done) => {
+  test('PUT /question/:id should update the question and return the updated question in the response', (done) => {
     request(app)
       .put(`/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
@@ -85,7 +85,7 @@ describe('update a question', () => {
         done();
       });
   });
-  it('PUT /question/:id should update question with one or more attributes and should not update student reference', (done) => {
+  test('PUT /question/:id should update question with one or more attributes and should not update student reference', (done) => {
     request(app)
       .put(`/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
@@ -101,7 +101,7 @@ describe('update a question', () => {
         done();
       });
   });
-  it('PUT /question/:id should not update question if there is no authorization', (done) => {
+  test('PUT /question/:id should not update question if there is no authorization', (done) => {
     request(app)
       .put(`/questions/${questionId[1]}`)
       .set('Content-Type', 'application/json')
@@ -117,7 +117,7 @@ describe('update a question', () => {
 });
 
 describe('create a comment', () => {
-  it('POST /:id/comments should create a new comment and return the question in the response', (done) => {
+  test('POST /:id/comments should create a new comment and return the question in the response', (done) => {
     request(app)
       .post(`/questions/${questionId[0]}/comments`)
       .set('Content-Type', 'application/json')
@@ -131,7 +131,7 @@ describe('create a comment', () => {
         done();
       });
   });
-  it('POST /:id/comments should create more than one comments on a question and return the question in the response', (done) => {
+  test('POST /:id/comments should create more than one comments on a question and return the question in the response', (done) => {
     request(app)
       .post(`/questions/${questionId[0]}/comments`)
       .set('Content-Type', 'application/json')
@@ -153,7 +153,7 @@ describe('create a comment', () => {
 });
 
 describe('update a comment', () => {
-  it('PUT /:id/comments/:commentid should update the comment and return the updated question in the response', (done) => {
+  test('PUT /:id/comments/:commentid should update the comment and return the updated question in the response', (done) => {
     request(app)
       .put(`/questions/${questionId[0]}/comments/${commentId[0]}`)
       .set('Content-Type', 'application/json')
@@ -167,7 +167,7 @@ describe('update a comment', () => {
         done();
       });
   });
-  it('PUT /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+  test('PUT /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
     request(app)
       .put(`/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
@@ -182,7 +182,7 @@ describe('update a comment', () => {
   });
 });
 describe('delete a comment', () => {
-  it('DELETE /:id/comments/:commentid should delete the comment and return the updated question in the response', (done) => {
+  test('DELETE /:id/comments/:commentid should delete the comment and return the updated question in the response', (done) => {
     request(app)
       .delete(`/questions/${questionId[0]}/comments/${commentId[0]}`)
       .set('Content-Type', 'application/json')
@@ -194,7 +194,7 @@ describe('delete a comment', () => {
         done();
       });
   });
-  it('DELETE /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+  test('DELETE /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
     request(app)
       .delete(`/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
@@ -208,7 +208,7 @@ describe('delete a comment', () => {
   });
 });
 describe('delete a question', () => {
-  it('DELETE /question/:id should delete the question and return the deleted question in the response', (done) => {
+  test('DELETE /question/:id should delete the question and return the deleted question in the response', (done) => {
     request(app)
       .delete(`/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
@@ -222,7 +222,7 @@ describe('delete a question', () => {
         done();
       });
   });
-  it('DELETE /question/:id should not DELETE question if there is no authorization', (done) => {
+  test('DELETE /question/:id should not DELETE question if there is no authorization', (done) => {
     request(app)
       .put(`/questions/${questionId[1]}`)
       .set('Content-Type', 'application/json')
