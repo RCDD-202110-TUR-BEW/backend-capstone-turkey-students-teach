@@ -12,7 +12,6 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "node/no-unpublished-require": ["warn"],
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "warn",

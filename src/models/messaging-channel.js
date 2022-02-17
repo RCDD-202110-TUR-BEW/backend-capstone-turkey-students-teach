@@ -21,8 +21,7 @@ const messageSchema = new Schema(
   },
   { timestamps: true }
 );
-
-const messagingChannelSchema = new Schema(
+const messagingChannnelSchema = new Schema(
   {
     contacts: {
       type: [Schema.Types.ObjectId],
@@ -36,5 +35,4 @@ const messagingChannelSchema = new Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model('MessagingChannel', messagingChannelSchema);
+module.exports = mongoose.model('MessagingChannel', messagingChannnelSchema);

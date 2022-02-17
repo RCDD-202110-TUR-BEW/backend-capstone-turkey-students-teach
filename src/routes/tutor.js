@@ -14,8 +14,8 @@ router.put('/:id/edit', tutorController.editProfile);
 
 router.get('/:id/chat', tutorController.getAllChats);
 
-router.get('/:id/chat/:chatId', tutorController.getOneChat);
+router.get('/:id/chat/:chatid', tutorController.getOneChat);
 
-router.post('/:id/chat', tutorController.sendMessage); // chatId must be included if the messaging channel already exists
+router.post('/:id/chat/:chatid', tutorController.sendMessage);
 
 module.exports = router;
