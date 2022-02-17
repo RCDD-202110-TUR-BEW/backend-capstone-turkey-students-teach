@@ -4,13 +4,13 @@ const questionController = require('../controllers/question');
 
 const router = express.Router();
 
-router.get('/', questionController.getAllQuestions);
+router.get('/', onlyAuthenticated, questionController.getAllQuestions);
 
 router.post('/', onlyAuthenticated, questionController.addNewQuestion);
 
 router.get('/search', questionController.searchForQuestions);
 
-router.get('/filter/:tagid', questionController.getQuestiosWithSimilarTags);
+router.get('/filter/:tags', questionController.getQuestiosWithSimilarTags);
 
 router.get('/:id', questionController.getOneQuestion);
 

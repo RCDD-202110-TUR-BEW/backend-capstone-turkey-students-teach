@@ -2,14 +2,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
-const { StudentModel } = require('../models/student');
-const authController = require('./auth');
-const { server } = require('../app');
+const { StudentModel } = require('../../models/student');
+const authController = require('../auth');
+const { server } = require('../../app');
 
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 jest.mock('google-auth-library');
-jest.mock('../models/student');
+jest.mock('../../models/student');
 /** end mocked dependencies */
 
 /** data */

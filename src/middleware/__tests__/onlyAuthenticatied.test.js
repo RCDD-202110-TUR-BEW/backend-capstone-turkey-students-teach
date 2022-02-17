@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-const onlyAuthenticated = require('../middleware/onlyAuthenticated');
+const onlyAuthenticated = require('../onlyAuthenticated');
 
 describe('only authenticated middleware', () => {
-  it('should throw an error if there is no cookie with the request', (done) => {
+  test('should throw an error if there is no cookie with the request', (done) => {
     const req = {};
     expect(onlyAuthenticated.bind(this, req, {}, () => {})).toThrow();
     done();

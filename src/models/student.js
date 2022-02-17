@@ -59,7 +59,7 @@ const student = mongoose.Schema({
 
 // Prevent password to send
 student.set('toJSON', {
-  transform(doc, ret, opt) {
+  transform(doc, ret) {
     // eslint-disable-next-line no-param-reassign
     delete ret.passwordHash;
     return ret;
