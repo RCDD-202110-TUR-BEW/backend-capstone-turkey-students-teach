@@ -10,7 +10,7 @@ const messages = ['hello', 'testing'];
 
 describe('Tutors endpoints /tutors', () => {
   describe('PUT /:id/edit', () => {
-    it('should update the profile name from emir to ahmed', (done) => {
+    test('should update the profile name from emir to ahmed', (done) => {
       request(app)
         .put(`/tutors/${userIds[0]}/edit`)
         .set('Content-Type', 'application/json')
@@ -25,7 +25,7 @@ describe('Tutors endpoints /tutors', () => {
         });
     });
 
-    it('should NOT change the username', (done) => {
+    test('should NOT change the username', (done) => {
       request(app)
         .put(`/tutors/${userIds[0]}/edit`)
         .set('Content-Type', 'application/json')
@@ -42,7 +42,7 @@ describe('Tutors endpoints /tutors', () => {
   });
 
   describe('GET /:id/chat', () => {
-    it('should check for the messaging channels structure', (done) => {
+    test('should check for the messaging channels structure', (done) => {
       request(app)
         .get(`/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
@@ -61,7 +61,7 @@ describe('Tutors endpoints /tutors', () => {
   });
 
   describe('GET /:id/chat/:chatId', () => {
-    it('should check for the single chat structure', (done) => {
+    test('should check for the single chat structure', (done) => {
       request(app)
         .get(`/tutors/${userIds[0]}/chat/${chatIds[0]}`)
         .set('Content-Type', 'application/json')
@@ -83,7 +83,7 @@ describe('Tutors endpoints /tutors', () => {
   });
 
   describe('POST /:id/chat', () => {
-    it('should create a chatroom and send "hello"', (done) => {
+    test('should create a chatroom and send "hello"', (done) => {
       request(app)
         .post(`/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
@@ -94,7 +94,7 @@ describe('Tutors endpoints /tutors', () => {
         });
     });
 
-    it('should check for the chatroom and the message creation', (done) => {
+    test('should check for the chatroom and the message creation', (done) => {
       request(app)
         .get(`/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
@@ -108,7 +108,7 @@ describe('Tutors endpoints /tutors', () => {
         });
     });
 
-    it('should send the message "hello" to an existing channel', (done) => {
+    test('should send the message "hello" to an existing channel', (done) => {
       request(app)
         .post(`/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
