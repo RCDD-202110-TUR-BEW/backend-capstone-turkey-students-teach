@@ -15,16 +15,18 @@
     "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
   },
   "dependencies": {
-    "chai": "^4.3.6",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
+    "chai": "^4.3.6",
+    "cookie": "^0.4.2",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^14.2.0",
     "express": "^4.17.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.8",
-    "supertest": "^6.2.2",
     "google-auth-library": "^7.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.2",
     "slugify": "^1.6.5",
+    "supertest": "^6.2.2",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
@@ -40,7 +42,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
-    "jest": "^27.5.1",
+    "jest": "^27.5.0",
     "lint-staged": "^12.3.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"

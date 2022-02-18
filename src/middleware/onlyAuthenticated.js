@@ -3,17 +3,20 @@ const jwt = require('jsonwebtoken');
 
 //  error messages
 const sessionNotFoundError = {
-  meesage: 'There is no session; please sign in.',
+  meesage: 'you are not signed in. Please sign in',
 };
 
+// eslint-disable-next-line consistent-return
 module.exports = function onlyAuthenticated(req, res, next) {
-  const { accessToken } = req.cookies;
-  try {
-    if (!accessToken) throw sessionNotFoundError;
-    const user = jwt.verify(accessToken, process.env.SECRET_KEY);
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.status(401).json(sessionNotFoundError);
+  // eslint-disable-next-line consistent-return
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+
     req.user = user;
+
     next();
-  } catch (err) {
-    res.status(401).json(err);
-  }
+  });
 };

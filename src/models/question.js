@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
-const { subjectSchema } = require('./student');
-
 const { Schema } = mongoose;
-
+const subject = mongoose.Schema({
+  title: {
+    type: String,
+    enum: ['Math', 'Physics', 'Biology', 'History', 'Programming'],
+    required: true,
+  },
+});
 const commentSchema = new Schema(
   {
     content: {
@@ -39,7 +43,7 @@ const questionSchema = new Schema(
       required: true,
     },
     subjects: {
-      type: [subjectSchema],
+      type: [subject],
     },
     isSolved: {
       type: Boolean,
@@ -57,5 +61,4 @@ const questionSchema = new Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model('question', questionSchema);
+module.exports = mongoose.model('Question', questionSchema);

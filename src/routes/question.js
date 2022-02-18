@@ -21,13 +21,13 @@ router.delete('/:id', onlyAuthenticated, questionController.deleteQuestion);
 router.post('/:id/comments', onlyAuthenticated, questionController.addComment);
 
 router.put(
-  ':id/comments/:commentid',
+  '/:id/comments/:commentid',
   onlyAuthenticated,
   questionController.updateComment
 );
 
 router.delete(
-  ':id/comments/:commentid',
+  '/:id/comments/:commentid',
   onlyAuthenticated,
   questionController.deleteComment
 );
