@@ -1,6 +1,6 @@
 const { check, validationResult } = require('express-validator');
 
-exports.validateQuestion = [
+const validateQuestion = [
   check('title', 'Title must be at least 3 characters long')
     .notEmpty()
     .withMessage('Title should not be empty')
@@ -8,9 +8,12 @@ exports.validateQuestion = [
   check('content').notEmpty().withMessage('Content should not be empty'),
   check('subjects').notEmpty().withMessage('Subjects should not be empty'),
   check('comments').isEmpty().withMessage('Comments should be empty'),
+  // eslint-disable-next-line consistent-return
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json(errors.array());
-    return next();
+    next();
   },
 ];
+
+module.exports = validateQuestion;
