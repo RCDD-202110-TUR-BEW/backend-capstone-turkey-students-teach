@@ -24,7 +24,6 @@
       "post": {
         "tags": ["question"],
         "summary": "add new question",
-        "operationId": "addQuestion",
         "requestBody": {
           "description": "question object that needs to be added",
           "content": {
@@ -46,19 +45,12 @@
           "403": {
             "description": "Not authorized user"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": ["write:pets", "read:pets"]
-          }
-        ],
-        "x-codegen-request-body-name": "body"
+        }
       },
       "get": {
         "tags": ["question"],
         "summary": "get all questions",
         "description": "get all asked questions as an array of objects",
-        "operationId": "getAllQuestion",
         "responses": {
           "200": {
             "description": "Successful operation"
@@ -66,13 +58,7 @@
           "422": {
             "description": "Database error"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": ["write:pets", "read:pets"]
-          }
-        ],
-        "x-codegen-request-body-name": "body"
+        }
       }
     },
     "/questions/{id}": {
@@ -80,7 +66,6 @@
         "tags": ["question"],
         "summary": "Find question by ID",
         "description": "Returns a single question",
-        "operationId": "getQuestiontById",
         "parameters": [
           {
             "name": "id",
@@ -114,7 +99,6 @@
         "tags": ["question"],
         "summary": "Search in question's title and content",
         "description": "Returns the questions that matche the title or content",
-        "operationId": "searchForQuestion",
         "parameters": [
           {
             "name": "text",
@@ -141,7 +125,6 @@
         "tags": ["question"],
         "summary": "Filter question by tags [subjects]",
         "description": "Returns questions that ",
-        "operationId": "getQuestiontById",
         "parameters": [
           {
             "name": "tags",
