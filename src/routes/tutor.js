@@ -6,7 +6,7 @@ router.get('/', tutorController.getAllTutors);
 
 router.get('/search', tutorController.searchForTutor);
 
-router.get('/filter/:tagid', tutorController.filterTutorsByTags);
+router.get('/filter/:tagId', tutorController.filterTutorsByTags);
 
 router.get('/:id', tutorController.getTutorDetails);
 
