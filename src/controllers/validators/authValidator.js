@@ -9,7 +9,7 @@ exports.validateSignin = [
     .withMessage('password can not be empty!')
     .bail()
     .isLength({ min: 8 })
-    .withMessage('password should longer than 8 characters')
+    .withMessage('password should be longer than 8 characters')
     .bail(),
   check('email')
     .trim()
