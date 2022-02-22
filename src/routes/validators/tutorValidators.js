@@ -37,14 +37,14 @@ exports.editProfileValidator = [
 
   body('subjects')
     .isArray()
-    .withMessage('subjects must be an array.')
+    .withMessage('subjects must be an array of strings.')
     .optional({ nullable: true }),
 
   body('subjects.*')
     .isString()
-    .withMessage('Subjects inside of the array must be a string.')
+    .withMessage('Subjects inside of the array must be strings.')
     .isIn(['Math', 'Physics', 'Biology', 'History', 'Programming'])
-    .withMessage('Invalid enum choice')
+    .withMessage('Invalid subject choice')
     .optional({ nullable: true }),
   (req, res, next) => {
     const errors = validationResult(req);
