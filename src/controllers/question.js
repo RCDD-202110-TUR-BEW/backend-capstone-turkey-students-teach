@@ -1,7 +1,36 @@
-// const mongoose = require('mongoose');
 const Question = require('../models/question');
 const Student = require('../models/student');
 
+//  errors messages
+const authorizationError = { message: 'you dont have this authorization' };
+const randomError = { message: 'something went wrong' };
+
+async function saveQuestion(req, type = 'create') {
+  let { question } = req;
+  switch (type) {
+    case 'create':
+      question.title = req.body?.title;
+      question.content = req.body?.content;
+      question.subjects = req.body?.subjects;
+      question.isSolved = req.body?.isSolved;
+      question.student = req.user?.id;
+      break;
+    case 'update':
+      question.title = req.body?.title ?? question.title;
+      question.content = req.body?.content ?? question.content;
+      question.subjects = req.body?.subjects ?? question.subjects;
+      question.isSolved = req.body?.isSolved ?? question.isSolved;
+      break;
+    default:
+      break;
+  }
+  try {
+    question = await question.save();
+    return question;
+  } catch (error) {
+    return error;
+  }
+}
 const filterQuestions = async (res, query) => {
   try {
     // Find and sort by latest
@@ -14,6 +43,87 @@ const filterQuestions = async (res, query) => {
   }
 };
 module.exports = {
+  updateQuestion: async (req, res) => {
+    const { id } = req.params;
+    try {
+      //  check authority for the user
+      const question = await Question.findById(id);
+      if (id && req.user.id === question.student.toString()) {
+        req.question = await Question.findById(id);
+        const updatedQuestion = await saveQuestion(req, 'update');
+        return res.status(200).json(updatedQuestion);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
+    }
+  },
+  deleteQuestion: async (req, res) => {
+    const { id } = req.params;
+    try {
+      //  check authority for the user
+      const question = await Question.findById(id);
+      if (id && req.user.id === question.student.toString()) {
+        const deletedQuestion = await Question.findByIdAndDelete(id);
+        return res.status(200).json(deletedQuestion);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
+    }
+  },
+  addComment: async (req, res) => {
+    const { id } = req.params;
+    const { content } = req.body;
+    try {
+      const question = await Question.findById(id);
+      const newComment = {
+        content,
+        question: id,
+        //  user should be signed in and authenticated
+        creator: req?.user?.id ?? null,
+        isRead: false,
+      };
+      question.comments.push(newComment);
+      const updatedQuestion = await question.save();
+      return res.status(200).json(updatedQuestion);
+    } catch (error) {
+      return res.status(401).json(randomError);
+    }
+  },
+  updateComment: async (req, res) => {
+    const { id, commentid } = req.params;
+    const { content } = req.body;
+    try {
+      const question = await Question.findById(id);
+      const comment = question.comments.find((c) => c.id === commentid);
+      //  check authority for the user
+      if (id && req.user.id === comment.creator.toString()) {
+        comment.content = content;
+        const updatedQuestion = await question.save();
+        return res.status(200).json(updatedQuestion);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
+    }
+  },
+  deleteComment: async (req, res) => {
+    const { id, commentid } = req.params;
+    try {
+      const question = await Question.findById(id);
+      const comment = question.comments.find((c) => c.id === commentid);
+      if (id && req.user.id === comment.creator.toString()) {
+        const indexOfComment = question.comments.indexOf(comment);
+        question.comments.splice(indexOfComment, 1);
+        const updatedQuestion = await question.save();
+        return res.status(200).json(updatedQuestion);
+      }
+      throw authorizationError;
+    } catch (error) {
+      return res.status(401).json(error);
+    }
+  },
   getAllQuestions: async (req, res) => {
     /* test if it's registered user then get all the questions
       related to the interested subjects of the user
@@ -90,10 +200,4 @@ module.exports = {
       filterQuestions(res, query);
     }
   },
-
-  updateQuestion: async () => {},
-  deleteQuestion: async () => {},
-  addComment: async () => {},
-  updateComment: async () => {},
-  deleteComment: async () => {},
 };

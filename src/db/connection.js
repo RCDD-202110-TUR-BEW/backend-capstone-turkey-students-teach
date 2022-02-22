@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
-const url = process.env.MONGODB_ATLAS_URL;
+require('dotenv').config();
+
+const isJest = process.env.IS_JEST;
+let url = process.env.MONGODB_ATLAS_URL;
+if (isJest) url = process.env.TEST_DB_URL;
 
 const connectToMongo = async () => {
   try {
