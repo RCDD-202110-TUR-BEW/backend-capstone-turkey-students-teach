@@ -6,6 +6,7 @@ const questionRouter = require('./routes/question');
 const authRouter = require('./routes/auth');
 
 const connectToMongo = require('./db/connection');
+const serverStatus = require('./utils/serverStatus');
 
 require('dotenv').config();
 
@@ -28,6 +29,9 @@ app.use('/', router);
 app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
+
+console.log('Starting server status checking cronjob...');
+serverStatus.start();
 
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console
