@@ -18,7 +18,7 @@
     {
       "name": "student",
       "externalDocs": {
-        "description": "More about google signin",
+        "description": "More about google authentication",
         "url": "https://developers.google.com/identity/sign-in/web/sign-in"
       }
     }
@@ -55,7 +55,7 @@
     "/signup": {
       "post": {
         "tags": ["student"],
-        "summary": "Create a new student",
+        "summary": "Create a new student account",
         "description": "",
         "operationId": "signupStudent",
         "produces": ["application/json"],
@@ -63,7 +63,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Student object needs to be added to Students",
+            "description": "Student object that needs to be added to Students Collection",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Student"
@@ -83,7 +83,7 @@
     "/signin/google": {
       "post": {
         "tags": ["student"],
-        "summary": "Create a new student or login via gmail",
+        "summary": "Create a new student account or login via gmail",
         "description": "",
         "operationId": "signInGoogle",
         "produces": ["application/json"],
@@ -91,7 +91,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Student object needs to be added to Students",
+            "description": "Student object that needs to be added to Students Collection",
             "required": true,
             "schema": {
               "$ref": "#/definitions/SigninGoogle"
@@ -106,7 +106,7 @@
             "description": "JWT token includes user informations"
           },
           "400": {
-            "description": "{ error: 'Cant verify with google sign up' }"
+            "description": "{ error: 'Cant verify with google authentication' }"
           }
         }
       }
