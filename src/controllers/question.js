@@ -167,7 +167,7 @@ module.exports = {
     */
     const questionData = req.body;
     // Assign the new question to the current user
-    // questionData.student = req.user.id;
+    questionData.student = req.user.id;
     try {
       const newQuestion = await Question.create(questionData);
       res.status(201).json(newQuestion);
