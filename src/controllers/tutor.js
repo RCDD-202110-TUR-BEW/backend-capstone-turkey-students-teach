@@ -1,4 +1,4 @@
-const Student = require('../models/student').studentModel;
+const Student = require('../models/student').StudentModel;
 const messagingChannelModel = require('../models/messaging-channel');
 
 module.exports = {
@@ -63,9 +63,17 @@ module.exports = {
   editProfile: async (req, res) => {
     const { id } = req.params;
 
-    const cannotChange = ['username', 'passwordHash', 'questions']; // should be added as a middleware
+    const canChange = [
+      'firstName',
+      'lastName',
+      'email',
+      'isTutor',
+      'avatar',
+      'subjects',
+    ];
+    // should be added as a middleware
     Object.keys(req.body).forEach((key) => {
-      if (cannotChange.includes(key)) {
+      if (!canChange.includes(key)) {
         delete req.body[key];
       }
     });
@@ -129,10 +137,6 @@ module.exports = {
     const { chatId, content, receiver } = req.body;
     try {
       if (chatId) {
-        // const existsAndBelongsToUser = await Student.findOne({
-        //   _id: id,
-        //   'messagingChannels.id': chatId,
-        // });
         const existsAndBelongsToUser = await messagingChannelModel.findOne({
           _id: chatId,
           contacts: id,
