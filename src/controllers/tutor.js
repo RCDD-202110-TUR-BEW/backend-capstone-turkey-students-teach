@@ -2,10 +2,64 @@ const Student = require('../models/student').StudentModel;
 const messagingChannelModel = require('../models/messaging-channel');
 
 module.exports = {
-  getAllTutors: async () => {},
-  getTutorDetails: async () => {},
-  filterTutorsByTags: async () => {},
-  searchForTutor: async () => {},
+  getAllTutors: async (req, res) => {
+    try {
+      const tutors = await Student.find({ isTutor: true });
+      res.status(200).json(tutors);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+  getTutorDetails: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const details = await Student.findById(id);
+      res.status(200).json(details);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+  filterTutorsByTags: async (req, res) => {
+    const { tagId } = req.params;
+    try {
+      const tutors = await Student.find({
+        subjects: {
+          $elemMatch: {
+            $or: [{ title: tagId }, { _id: tagId }],
+          },
+        },
+      });
+      res.status(200).json(tutors);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+  searchForTutor: async (req, res) => {
+    const { tutorName } = req.query;
+
+    const [firstName, lastName] = tutorName.toLowerCase().split(' ');
+
+    try {
+      const tutors = await Student.find({
+        $and: [
+          {
+            $or: [
+              { firstName },
+              { lastName: lastName !== undefined ? lastName : firstName },
+              {
+                $and: [{ firstName }, { lastName }],
+              },
+            ],
+          },
+          { isTutor: true },
+        ],
+      });
+      res.status(200).json(tutors);
+    } catch (e) {
+      res.status(400).json({ message: e.message });
+    }
+  },
+
   editProfile: async (req, res) => {
     const { id } = req.params;
 

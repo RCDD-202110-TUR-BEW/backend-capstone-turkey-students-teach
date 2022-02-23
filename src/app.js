@@ -7,8 +7,6 @@ const authRouter = require('./routes/auth');
 
 const connectToMongo = require('./db/connection');
 
-require('dotenv').config();
-
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
