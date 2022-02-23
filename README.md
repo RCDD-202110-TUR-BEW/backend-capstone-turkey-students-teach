@@ -52,6 +52,8 @@ Launches the test runner
 - Middleware for only auth and only tutor
 - Unit tests via using jest framework
 
+## Check out our application
+[Student Teach](http://localhost:3000)
 
 ## Technologies
 
@@ -77,10 +79,10 @@ Launches the test runner
 ## Images From Our Project
 
 ### System Architecture Diagram
-![System Structure](https://imgkub.com/image/lekOT)
+![System Architecture ](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
 
 ### Database Schema Design
-![ERD](https://imgkub.com/image/lehIt)
+![Database Schema](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
 
 ### Home Page
 ![Home Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
