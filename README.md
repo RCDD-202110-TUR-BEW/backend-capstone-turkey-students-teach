@@ -12,11 +12,11 @@
 * ![mongodb](https://img.shields.io/badge/mongodb-47A248?style=flat&logo=mongodb&logoColor=white)
 * ![nodejs](https://img.shields.io/badge/node_js-339933?style=flat&logo=node.js&logoColor=white)
 * ![express](https://img.shields.io/badge/express-000000?style=flat&logo=express&logoColor=white)
-* ![express-validator](https://img.shields.io/badge/express_validator-7457c2?style=flatlogo=expressvalidator&logoColor=white)
+* ![express-validator](https://img.shields.io/badge/express_validator-7457c2?style=flat)
 * ![jwt](https://img.shields.io/badge/jwt-000000?style=flat&logo=json-web-tokens&logoColor=white)
 * ![swagger](https://img.shields.io/badge/swagger-85EA2D?style=flat&logo=swagger&logoColor=white)
 * ![Jest](https://img.shields.io/badge/jest-C21325?style=flat&logo=jest&logoColor=white)
-* ![Cron](https://img.shields.io/badge/node_cron-185717?style=flat&logo=node-cron&logoColor=white)
+* ![Cron](https://img.shields.io/badge/node_cron-185717?style=flat)
 * ![AWS](https://img.shields.io/badge/Amazon_AWS-232F3E?style=flate&logo=Amazon-AWS&logoColor=white)
 
 
