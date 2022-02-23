@@ -40,7 +40,7 @@
             "description": "Successful operation"
           },
           "422": {
-            "description": "Error in validation or database"
+            "description": "Validation error"
           },
           "403": {
             "description": "Not authorized user"
@@ -56,7 +56,7 @@
             "description": "Successful operation"
           },
           "422": {
-            "description": "Database error"
+            "description": "Validation error"
           }
         }
       }
@@ -89,7 +89,7 @@
             }
           },
           "422": {
-            "description": "Database error"
+            "description": "Validation error"
           }
         }
       }
@@ -115,7 +115,7 @@
             "description": "Successful operation return empty when no question found or array of matched questions"
           },
           "422": {
-            "description": "Database error"
+            "description": "Validation error"
           }
         }
       }
@@ -124,7 +124,7 @@
       "get": {
         "tags": ["question"],
         "summary": "Filter question by tags [subjects]",
-        "description": "Returns questions that ",
+        "description": "Returns questions that their subjects match the tags",
         "parameters": [
           {
             "name": "tags",
@@ -141,7 +141,7 @@
             "description": "Successful operation return empty when no question found or array of questions matched the tags"
           },
           "422": {
-            "description": "Database Error"
+            "description": "Validation error"
           }
         }
       }
