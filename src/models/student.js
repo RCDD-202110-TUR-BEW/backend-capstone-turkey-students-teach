@@ -85,7 +85,6 @@ student.set('toJSON', {
 });
 
 module.exports = {
-  studentModel: mongoose.model('Student', student),
   StudentModel: mongoose.model('Student', student),
   subjectSchema: subject,
 };
