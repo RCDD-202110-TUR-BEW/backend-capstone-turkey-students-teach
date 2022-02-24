@@ -28,6 +28,7 @@
     "mongoose": "^6.2.2",
     "slugify": "^1.6.5",
     "supertest": "^6.2.2",
+    "swagger-ui-express": "^4.3.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {

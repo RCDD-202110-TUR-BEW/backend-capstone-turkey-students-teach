@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Students Teach Auth Documentation",
+    "version": "1.0.0",
+    "title": "Students Teach",
+    "contact": {
+      "email": "emirsagit@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/auth",
+  "tags": [
+    {
+      "name": "student",
+      "externalDocs": {
+        "description": "More about google authentication",
+        "url": "https://developers.google.com/identity/sign-in/web/sign-in"
+      }
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/signin": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Logs student into the system",
+        "operationId": "loginUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object needs to be added to Students",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Signin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "wrong email or password"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Create a new student account",
+        "description": "",
+        "operationId": "signupStudent",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added to Students Collection",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "{ error: `${email}: email already exist` }"
+          }
+        }
+      }
+    },
+    "/signin/google": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Create a new student account or login via gmail",
+        "description": "",
+        "operationId": "signInGoogle",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added to Students Collection",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SigninGoogle"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT token includes user informations"
+          },
+          "201": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "{ error: 'Cant verify with google authentication' }"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Student": {
+      "type": "object",
+      "required": ["email", "firstName", "lastName", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subjects"
+          }
+        },
+        "isTutor": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SigninGoogle": {
+      "type": "object",
+      "required": ["token"],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Google auth token"
+        }
+      }
+    },
+    "Signin": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Subjects": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": ["available", "pending", "sold"]
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
