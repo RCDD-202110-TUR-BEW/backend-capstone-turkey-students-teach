@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use('/', router);
 app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.NODE_LOCAL_PORT;
 
