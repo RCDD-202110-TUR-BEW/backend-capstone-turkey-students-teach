@@ -12,10 +12,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use('/', router);
-app.use('/tutors', tutorRouter);
-app.use('/questions', questionRouter);
-
 const port = process.env.NODE_LOCAL_PORT;
 
 app.set('view engine', 'ejs');
