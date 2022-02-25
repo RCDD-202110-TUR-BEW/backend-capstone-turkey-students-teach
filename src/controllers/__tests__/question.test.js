@@ -17,6 +17,11 @@ jest.mock('../../middleware/onlyAuthenticated', () =>
     next();
   })
 );
+jest.mock('../../middleware/validateQuestion', () =>
+  jest.fn((req, res, next) => {
+    next();
+  })
+);
 const questionId = [];
 const commentId = [];
 

@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
@@ -22,6 +24,7 @@ app.use('/', router);
 app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const server = app.listen(port, () => {
   // eslint-disable-next-line no-console
