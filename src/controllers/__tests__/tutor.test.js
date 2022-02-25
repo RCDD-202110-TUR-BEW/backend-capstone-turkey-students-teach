@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const { expect } = require('chai');
 const { app } = require('../../app');
@@ -100,8 +101,7 @@ describe('Tutors endpoints /tutors', () => {
         });
         return done();
       });
-    });
-
+  });
 
   describe('PUT /:id/edit', () => {
     test('should update the profile name from emir to ahmed', (done) => {
