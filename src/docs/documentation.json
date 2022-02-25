@@ -1,0 +1,433 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Students Teach Documentation",
+    "version": "1.0.0",
+    "title": "Students Teach",
+    "contact": {
+      "email": "emirsagit@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/auth",
+  "tags": [
+    {
+      "name": "student",
+      "externalDocs": {
+        "description": "More about google authentication",
+        "url": "https://developers.google.com/identity/sign-in/web/sign-in"
+      }
+    },
+    {
+      "name": "Question"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/signin": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Logs student into the system",
+        "operationId": "loginUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object needs to be added to Students",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Signin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "wrong email or password"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Create a new student account",
+        "description": "",
+        "operationId": "signupStudent",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added to Students Collection",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "{ error: `${email}: email already exist` }"
+          }
+        }
+      }
+    },
+    "/signin/google": {
+      "post": {
+        "tags": ["student"],
+        "summary": "Create a new student account or login via gmail",
+        "description": "",
+        "operationId": "signInGoogle",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added to Students Collection",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SigninGoogle"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT token includes user informations"
+          },
+          "201": {
+            "description": "JWT token includes user informations"
+          },
+          "400": {
+            "description": "{ error: 'Cant verify with google authentication' }"
+          }
+        }
+      }
+    },
+    "/question/{id} ": {
+      "put": {
+        "tags": ["Question"],
+        "summary": "update a question",
+        "operationId": "question",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Question"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "401": {
+            "description": "There is no autherization"
+          },
+          "403": {
+            "description": "something went wrong in the request"
+          },
+          "422": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/question/{id}": {
+      "delete": {
+        "tags": ["Question"],
+        "summary": "delete a question",
+        "operationId": "question",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "description": "question id for the question wanted to be deleted",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted successfully"
+          },
+          "401": {
+            "description": "There is no autherization"
+          },
+          "403": {
+            "description": "something went wrong in the request"
+          },
+          "422": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/{id}/comments": {
+      "post": {
+        "tags": ["Question"],
+        "summary": "create comment on question",
+        "operationId": "question",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "description": "id of the question wants to comment on",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "id of the question wanted to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "created successfully"
+          },
+          "401": {
+            "description": "There is no authentication"
+          },
+          "403": {
+            "description": "something went wrong in the request"
+          },
+          "422": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/{id}/comments/{commentid}": {
+      "put": {
+        "tags": ["Question"],
+        "summary": "update comment on question",
+        "operationId": "question",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "description": "id of the question where the comment was commented",
+            "required": true
+          },
+          {
+            "in": "params",
+            "name": "commentid",
+            "type": "string",
+            "description": "id of the comment wants to be updated",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "question id for the question wanted to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "updated successfully"
+          },
+          "401": {
+            "description": "There is no authentication"
+          },
+          "403": {
+            "description": "something went wrong in the request"
+          },
+          "422": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/{id}/comments/{commentid} ": {
+      "delete": {
+        "tags": ["Question"],
+        "summary": "delete comment on question",
+        "operationId": "question",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "params",
+            "name": "id",
+            "type": "string",
+            "description": "id of the question where the comment was commented",
+            "required": true
+          },
+          {
+            "in": "params",
+            "name": "commentid",
+            "type": "string",
+            "description": "id of the comment wants to be deleted",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "deleted successfully"
+          },
+          "401": {
+            "description": "There is no authentication"
+          },
+          "403": {
+            "description": "something went wrong in the request"
+          },
+          "422": {
+            "description": "validation error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Student": {
+      "type": "object",
+      "required": ["email", "firstName", "lastName", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subjects"
+          }
+        },
+        "isTutor": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SigninGoogle": {
+      "type": "object",
+      "required": ["token"],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Google auth token"
+        }
+      }
+    },
+    "Signin": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Subjects": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "enum": ["available", "pending", "sold"]
+        }
+      }
+    },
+    "Question": {
+      "type": "object",
+      "required": ["title", "content", "student"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "title of the question"
+        },
+        "content": {
+          "type": "string",
+          "description": "content of the question"
+        },
+        "isSolved": {
+          "type": "boolean",
+          "description": "default is false"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subjects"
+          }
+        },
+        "comments": {
+          "type": "array",
+          "$ref": "#/definitions/Comment"
+        },
+        "student": {
+          "type": "string",
+          "$ref": "#/definitions/Student"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "updatedAt": {
+          "type": "date"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "required": ["question", "creator", "content"],
+      "properties": {
+        "question": {
+          "type": "string",
+          "$ref": "#/definitions/Question"
+        },
+        "creator": {
+          "type": "string",
+          "$ref": "#/definitions/Student"
+        },
+        "content": {
+          "type": "string"
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "default is false"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
