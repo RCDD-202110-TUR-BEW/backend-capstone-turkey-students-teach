@@ -64,8 +64,8 @@ beforeAll(async () => {
   await initializeDatabase();
 });
 
-afterAll(() => {
-  server.close();
+afterAll(async () => {
+  await server.close();
 });
 describe('update a question', () => {
   test('PUT /question/:id should update the question and return the updated question in the response', (done) => {

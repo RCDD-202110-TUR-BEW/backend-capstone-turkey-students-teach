@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const router = require('./routes');
 const tutorRouter = require('./routes/tutor');
 const questionRouter = require('./routes/question');
@@ -11,16 +12,15 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-app.use('/', router);
-app.use('/tutors', tutorRouter);
-app.use('/questions', questionRouter);
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 
 const port = process.env.NODE_LOCAL_PORT;
 
 app.set('view engine', 'ejs');
-
-app.use(express.json());
 
 app.use('/', router);
 app.use('/tutors', tutorRouter);
