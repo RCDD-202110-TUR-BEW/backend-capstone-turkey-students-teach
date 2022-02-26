@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const fetch = require('cross-fetch');
+const logger = require('./logger');
 
 const options = {
   timezone: 'Europe/Istanbul',
@@ -12,15 +13,15 @@ const serverChecking = cron.schedule(
       const res = await fetch('http://localhost:3000/');
 
       if (res.status >= 400) {
-        return console.error(
+        return logger.error(
           `CRON: Server bad response with the status code: ${res.status}`
         );
       }
-      return console.info(
+      return logger.info(
         `CRON: The latest server status call returned the status code: ${res.status}`
       );
     } catch (e) {
-      return console.error(`CRON: an error occurred while calling the server.`);
+      return logger.error(`CRON: an error occurred while calling the server.`);
     }
   },
   options
