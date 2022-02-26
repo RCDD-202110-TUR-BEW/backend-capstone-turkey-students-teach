@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-
-require('dotenv').config();
+const logger = require('../utils/logger');
 
 const isJest = process.env.IS_JEST;
 let url = process.env.MONGODB_ATLAS_URL;
@@ -12,19 +11,16 @@ const connectToMongo = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    // eslint-disable-next-line no-console
-    console.log('Database connected: ', url);
+    logger.info(`Database connected: ${url}`);
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error('Database connection error: ', err);
+    logger.error(`Database connection error: ${err}`);
   }
 
   const db = mongoose.connection;
 
   // To handle errors after initial connection was established
   db.on('error', (err) => {
-    // eslint-disable-next-line no-console
-    console.error('Database connection error: ', err);
+    logger.error(`Database connection error: ${err}`);
   });
 };
 
