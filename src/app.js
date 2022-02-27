@@ -9,6 +9,7 @@ const authRouter = require('./routes/auth');
 
 const connectToMongo = require('./db/connection');
 const cronServerChecking = require('./utils/cronServerChecking');
+const logger = require('./utils/logger');
 
 const app = express();
 
@@ -27,12 +28,11 @@ app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-console.log('Starting the server checking cron job...');
+logger.info('Starting the server checking cron job...');
 cronServerChecking.start();
 
 const server = app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server listening on port ${port}`);
+  logger.info(`Server listening on port ${port}`);
   connectToMongo();
 });
 
