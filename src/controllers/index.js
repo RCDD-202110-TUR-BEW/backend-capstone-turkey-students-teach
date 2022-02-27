@@ -1,6 +1,6 @@
 module.exports = {
   getHomePage: async (req, res) => {
-    res.json('Welcome...');
+    res.status(200).json('Welcome...');
   },
   getDocumentation: async () => {},
 };
