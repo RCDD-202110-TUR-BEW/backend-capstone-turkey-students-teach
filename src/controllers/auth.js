@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const slugify = require('slugify');
 const { OAuth2Client } = require('google-auth-library');
 const { StudentModel } = require('../models/student');
+const logger = require('../utils/logger');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 /**
@@ -154,7 +155,10 @@ module.exports = {
 
       return payload;
     }
-    const payload = await verify().catch(console.error);
+
+    const payload = await verify().catch((e) =>
+      logger.error(`auth.js payload error: ${e}`)
+    );
 
     if (!payload) {
       return res

@@ -28,9 +28,6 @@ app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-console.log('Starting the server checking cron job...');
-cronServerChecking.start();
-
 logger.info('Starting the server checking cron job...');
 cronServerChecking.start();
 
