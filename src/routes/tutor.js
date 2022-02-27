@@ -1,6 +1,6 @@
 const express = require('express');
 const tutorController = require('../controllers/tutor');
-const tutorValidators = require('./validators/tutorValidators');
+const tutorValidators = require('../middleware/validators/tutorValidators');
 
 const router = express.Router();
 router.get('/', tutorController.getAllTutors);
