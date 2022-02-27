@@ -154,7 +154,6 @@ module.exports = {
 
       return payload;
     }
-    // eslint-disable-next-line no-console
     const payload = await verify().catch(console.error);
 
     if (!payload) {

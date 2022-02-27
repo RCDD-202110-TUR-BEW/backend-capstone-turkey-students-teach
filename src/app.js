@@ -35,7 +35,6 @@ logger.info('Starting the server checking cron job...');
 cronServerChecking.start();
 
 const server = app.listen(port, () => {
-  // eslint-disable-next-line no-console
   logger.info(`Server listening on port ${port}`);
   connectToMongo();
 });
