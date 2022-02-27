@@ -3,8 +3,7 @@ const { default: mongoose } = require('mongoose');
 const request = require('supertest');
 const chai = require('chai').expect;
 
-const { app } = require('../../app');
-const { server } = require('../../app');
+const { app, server } = require('../../app');
 
 const QuestionModel = require('../../models/question');
 const StudentModel = require('../../models/student');

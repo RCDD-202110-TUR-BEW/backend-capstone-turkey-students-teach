@@ -1,13 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const { expect } = require('chai');
-const { app } = require('../../app');
+const { app, server } = require('../../app');
 
 const userIds = ['6203f29bd418ecc175b73989', '62053f1e90c6987a613c1658'];
 const chatIds = ['620ba249fbfc2e688b4ac178'];
 const usernames = ['emirsagit79'];
 const names = ['ahmed', 'ammar'];
 const messages = ['hello', 'testing'];
+
+afterAll(async () => {
+  await server.close();
+});
 
 describe('Tutors endpoints /tutors', () => {
   test('GET /tutors should get all users or return empty array if there is no users', (done) => {
