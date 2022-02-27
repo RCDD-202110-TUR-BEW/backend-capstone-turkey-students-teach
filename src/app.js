@@ -16,11 +16,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use('/', router);
-app.use('/tutors', tutorRouter);
-app.use('/questions', questionRouter);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 const port = process.env.NODE_LOCAL_PORT;
 
 app.set('view engine', 'ejs');
@@ -31,6 +26,10 @@ app.use('/', router);
 app.use('/tutors', tutorRouter);
 app.use('/questions', questionRouter);
 app.use('/auth', authRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+console.log('Starting the server checking cron job...');
+cronServerChecking.start();
 
 logger.info('Starting the server checking cron job...');
 cronServerChecking.start();

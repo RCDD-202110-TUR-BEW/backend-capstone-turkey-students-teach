@@ -32,6 +32,7 @@ describe('Tutors endpoints /tutors', () => {
       .expect(200, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.be.an('object');
+        // eslint-disable-next-line no-underscore-dangle
         expect(res.body._id).to.equal(id);
         return done();
       });
@@ -48,6 +49,7 @@ describe('Tutors endpoints /tutors', () => {
         expect(res.body.length).to.not.equal(0);
         res.body.forEach((element) => {
           expect(
+            // eslint-disable-next-line no-underscore-dangle
             element.subjects.filter((e) => e._id === id).length
           ).to.greaterThanOrEqual(1);
         });

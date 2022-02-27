@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const { default: mongoose } = require('mongoose');
 const request = require('supertest');
 const chai = require('chai').expect;
 
@@ -62,7 +63,7 @@ async function initializeDatabase() {
     .send(question[0]);
   // eslint-disable-next-line no-underscore-dangle
   questionId.push(res.body._id);
-  questionId.push(`${questionId[0].substring(0, questionId[0].length - 3)}asd`);
+  questionId.push(mongoose.Types.ObjectId().toString());
 }
 
 beforeAll(async () => {
@@ -175,7 +176,7 @@ describe('update a comment', () => {
         done();
       });
   });
-  test('PUT /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+  test('PUT /:id/comments/:commentid should not update comment if there is no authorization', (done) => {
     request(app)
       .put(`/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
@@ -183,7 +184,7 @@ describe('update a comment', () => {
       .send(comment[1])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err) => {
+      .expect(422, (err) => {
         if (err) return done(err);
         done();
       });
@@ -202,14 +203,14 @@ describe('delete a comment', () => {
         done();
       });
   });
-  test('DELETE /:id/comments/:commentid should not update cooment if there is no authorization', (done) => {
+  test('DELETE /:id/comments/:commentid should not delete comment if there is no authorization', (done) => {
     request(app)
       .delete(`/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err) => {
+      .expect(422, (err) => {
         if (err) return done(err);
         done();
       });
@@ -237,7 +238,7 @@ describe('delete a question', () => {
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
       // eslint-disable-next-line consistent-return
-      .expect(401, (err) => {
+      .expect(422, (err) => {
         if (err) return done(err);
         done();
       });
