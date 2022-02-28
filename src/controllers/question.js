@@ -136,7 +136,8 @@ module.exports = {
       if (!student.subjects.length) {
         filterQuestions(res, query);
       } else {
-        query['subjects.title'] = student.subjects.title;
+        const subjects = student.subjects.map((subject) => subject.title);
+        query['subjects.title'] = { $in: subjects };
         filterQuestions(res, query);
       }
     }

@@ -16,6 +16,12 @@ jest.mock('../../middleware/onlyAuthenticated', () =>
     next();
   })
 );
+jest.mock('../../middleware/getAuthUser', () =>
+  jest.fn((req, res, next) => {
+    req.user = { id: loggeStudentId };
+    next();
+  })
+);
 jest.mock('../../middleware/validateQuestion', () =>
   jest.fn((req, res, next) => {
     next();
@@ -294,7 +300,7 @@ const mockUser = {
 // 1. Test getAllQuestions function
 describe('Get /questions', () => {
   test('should return all questions related to the logged user', async () => {
-    mockUser.subjects = { title: 'Math' };
+    mockUser.subjects = [{ title: 'Math' }];
     StudentModel.findById = jest.fn().mockReturnValue(mockUser);
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions.slice(0, 2));
     await request(app)
