@@ -6,7 +6,7 @@ const questionValidator = require('../middleware/validators/questionValidator');
 
 const router = express.Router();
 
-router.get('/', onlyAuthenticated, questionController.getAllQuestions);
+router.get('/', questionController.getAllQuestions);
 
 router.post(
   '/',
