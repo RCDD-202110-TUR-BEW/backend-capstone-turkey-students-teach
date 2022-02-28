@@ -13,7 +13,7 @@
     }
   },
   "host": "localhost:3000",
-  "basePath": "/auth",
+  "basePath": "/",
   "tags": [
     {
       "name": "student",
@@ -28,7 +28,7 @@
   ],
   "schemes": ["https", "http"],
   "paths": {
-    "/signin": {
+    "/auth/signin": {
       "post": {
         "tags": ["student"],
         "summary": "Logs student into the system",
@@ -55,7 +55,7 @@
         }
       }
     },
-    "/signup": {
+    "/auth/signup": {
       "post": {
         "tags": ["student"],
         "summary": "Create a new student account",
@@ -83,7 +83,7 @@
         }
       }
     },
-    "/signin/google": {
+    "/auth/signin/google": {
       "post": {
         "tags": ["student"],
         "summary": "Create a new student account or login via gmail",
@@ -110,6 +110,96 @@
           },
           "400": {
             "description": "{ error: 'Cant verify with google authentication' }"
+          }
+        }
+      }
+    },
+    "/tutors": {
+      "get": {
+        "tags": ["student"],
+        "summary": "get all tutors",
+        "description": "get all tutors as an array of objects",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/tutors/search": {
+      "get": {
+        "tags": ["student"],
+        "summary": "search for tutors",
+        "description": "get tutors matching search criteria as an array of objects",
+        "parameters": [
+          {
+            "name": "tutorName",
+            "in": "query",
+            "description": "tutor first, last or full name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/tutors/{id}": {
+      "get": {
+        "tags": ["student"],
+        "summary": "get tutor with given id",
+        "description": "get tutor detail matching id as object",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "tutor id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/tutors/filter/{tagId}": {
+      "get": {
+        "tags": ["student"],
+        "summary": "search for tutors with given tag",
+        "description": "get tutors with given tag as an array of objects",
+        "parameters": [
+          {
+            "name": "tagId",
+            "in": "path",
+            "description": "tag id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -453,7 +543,11 @@
             "items": {
               "type": "object"
             },
-            "example": [{ "title": "Math" }]
+            "example": [
+              {
+                "title": "Math"
+              }
+            ]
           },
           "isSolved": {
             "type": "boolean",
