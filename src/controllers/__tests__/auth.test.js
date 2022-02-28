@@ -229,3 +229,14 @@ describe('signInWithGmail method', () => {
     });
   });
 });
+
+describe('Get student method', () => {
+  test('should send auth student data', async () => {
+    // prapare mocks for testing
+    req.user = studentData;
+    // end prapare mocks for testing
+    authController.getStudent(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(req.user);
+  });
+});

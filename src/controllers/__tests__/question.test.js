@@ -6,11 +6,17 @@ const chai = require('chai').expect;
 const { app, server } = require('../../app');
 
 const QuestionModel = require('../../models/question');
-const StudentModel = require('../../models/student');
+const { StudentModel } = require('../../models/student');
 
 const loggeStudentId = '61fde3daa7f0f2fbd623b97a';
 
 jest.mock('../../middleware/onlyAuthenticated', () =>
+  jest.fn((req, res, next) => {
+    req.user = { id: loggeStudentId };
+    next();
+  })
+);
+jest.mock('../../middleware/getAuthUser', () =>
   jest.fn((req, res, next) => {
     req.user = { id: loggeStudentId };
     next();
@@ -69,8 +75,8 @@ beforeAll(async () => {
   await initializeDatabase();
 });
 
-afterAll(() => {
-  server.close();
+afterAll(async () => {
+  await server.close();
 });
 describe('update a question', () => {
   test('PUT /question/:id should update the question and return the updated question in the response', (done) => {
@@ -294,7 +300,7 @@ const mockUser = {
 // 1. Test getAllQuestions function
 describe('Get /questions', () => {
   test('should return all questions related to the logged user', async () => {
-    mockUser.subjects = { title: 'Math' };
+    mockUser.subjects = [{ title: 'Math' }];
     StudentModel.findById = jest.fn().mockReturnValue(mockUser);
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions.slice(0, 2));
     await request(app)

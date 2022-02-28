@@ -28,9 +28,7 @@ const student = mongoose.Schema({
   },
   passwordHash: {
     type: String,
-    required() {
-      return this.isSignUpWithGoogle === false;
-    },
+    required: () => this.isSignUpWithGoogle === false,
   },
   email: {
     type: String,

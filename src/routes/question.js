@@ -1,12 +1,13 @@
 const express = require('express');
 const onlyAuthenticated = require('../middleware/onlyAuthenticated');
+const getAuthUser = require('../middleware/getAuthUser');
 const validateQuestion = require('../middleware/validateQuestion');
 const questionController = require('../controllers/question');
 const questionValidator = require('../middleware/validators/questionValidator');
 
 const router = express.Router();
 
-router.get('/', questionController.getAllQuestions);
+router.get('/', getAuthUser, questionController.getAllQuestions);
 
 router.post(
   '/',

@@ -215,4 +215,5 @@ module.exports = {
       return res.status(400).json({ error });
     }
   },
+  getStudent: async (req, res) => res.status(200).json(req.user),
 };
