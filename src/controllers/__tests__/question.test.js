@@ -6,7 +6,7 @@ const chai = require('chai').expect;
 const { app, server } = require('../../app');
 
 const QuestionModel = require('../../models/question');
-const StudentModel = require('../../models/student');
+const { StudentModel } = require('../../models/student');
 
 const loggeStudentId = '61fde3daa7f0f2fbd623b97a';
 

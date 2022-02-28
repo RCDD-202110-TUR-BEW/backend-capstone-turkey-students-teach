@@ -1,5 +1,5 @@
 const Question = require('../models/question');
-const Student = require('../models/student');
+const { StudentModel } = require('../models/student');
 
 //  errors messages
 const authorizationError = { message: 'you dont have this authorization' };
@@ -131,9 +131,9 @@ module.exports = {
     const query = {};
     if (req.user) {
       // find user's subjects
-      const student = await Student.findById(req.user.id);
+      const student = await StudentModel.findById(req.user.id);
       // if user has no subject then get all questions ordered by date
-      if (!student.subjects) {
+      if (!student.subjects.length) {
         filterQuestions(res, query);
       } else {
         query['subjects.title'] = student.subjects.title;
