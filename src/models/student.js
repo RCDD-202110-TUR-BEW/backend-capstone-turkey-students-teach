@@ -8,62 +8,52 @@ const subject = mongoose.Schema({
   },
 });
 
-const student = mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    isSignUpWithGoogle: {
-      type: Boolean,
-      default: false,
-    },
-    passwordHash: {
-      type: String,
-      required: () => this.isSignUpWithGoogle === false,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    isTutor: {
-      type: Boolean,
-      default: false,
-    },
-    avatar: {
-      type: String,
-    },
-    subjects: {
-      type: [subject],
-    },
-    questions: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'question',
-    },
-    messagingChannels: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'MessagingChannel',
-    },
+const student = mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  {
-    toObject: {
-      virtuals: true,
-    },
-    toJSON: {
-      virtuals: true,
-    },
-  }
-);
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  isSignUpWithGoogle: {
+    type: Boolean,
+    default: false,
+  },
+  passwordHash: {
+    type: String,
+    required: () => this.isSignUpWithGoogle === false,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  isTutor: {
+    type: Boolean,
+    default: false,
+  },
+  avatar: {
+    type: String,
+  },
+  subjects: {
+    type: [subject],
+  },
+  questions: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'question',
+  },
+  messagingChannels: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'MessagingChannel',
+  },
+});
 
 student
   .virtual('fullName')
@@ -83,6 +73,8 @@ student.set('toJSON', {
     return ret;
   },
 });
+student.set('toObject', { virtuals: true });
+student.set('toJSON', { virtuals: true });
 
 module.exports = {
   StudentModel: mongoose.model('Student', student),

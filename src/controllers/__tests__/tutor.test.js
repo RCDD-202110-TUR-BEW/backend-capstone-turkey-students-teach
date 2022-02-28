@@ -1,12 +1,17 @@
+/* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const { expect } = require('chai');
-const { app } = require('../../app');
+const { app, server } = require('../../app');
 
-const userIds = ['6203f2015b8b83c4b99a1ee2', '6203f29bd418ecc175b73989'];
+const userIds = ['6203f29bd418ecc175b73989', '62053f1e90c6987a613c1658'];
 const chatIds = ['620ba249fbfc2e688b4ac178'];
-const usernames = ['emirsagit'];
+const usernames = ['emirsagit79'];
 const names = ['ahmed', 'ammar'];
 const messages = ['hello', 'testing'];
+
+afterAll(async () => {
+  await server.close();
+});
 
 describe('Tutors endpoints /tutors', () => {
   test('GET /tutors should get all users or return empty array if there is no users', (done) => {
@@ -97,6 +102,11 @@ describe('Tutors endpoints /tutors', () => {
         if (err) return done(err);
         expect(res.body).to.be.an('array');
         expect(res.body.length).to.not.equal(0);
+        res.body.forEach((element, index) => {
+          if (index !== 0) {
+            expect(element.fullName).to.equal(name);
+          }
+        });
         return done();
       });
   });

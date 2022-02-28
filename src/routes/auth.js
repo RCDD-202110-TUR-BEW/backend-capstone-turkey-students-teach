@@ -1,10 +1,10 @@
 const express = require('express');
 const authController = require('../controllers/auth');
+const onlyAuthenticated = require('../middleware/onlyAuthenticated');
 const {
   validateSignin,
   validateSignup,
-} = require('../controllers/validators/authValidator');
-const onlyAuthenticated = require('../middleware/onlyAuthenticated');
+} = require('../middleware/validators/authValidator');
 
 const router = express.Router();
 
