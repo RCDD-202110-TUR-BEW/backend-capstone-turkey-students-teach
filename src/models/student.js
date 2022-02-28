@@ -57,6 +57,16 @@ const student = mongoose.Schema({
   },
 });
 
+student
+  .virtual('fullName')
+  .get(function () {
+    return `${this.firstName} ${this.lastName}`;
+  })
+  .set(function (fullName) {
+    this.set('firstName', fullName.substr(0, fullName.indexOf(' ')));
+    this.set('lastName', fullName.substr(fullName.indexOf(' ') + 1));
+  });
+
 // Prevent password to send
 student.set('toJSON', {
   transform(doc, ret) {
@@ -65,9 +75,10 @@ student.set('toJSON', {
     return ret;
   },
 });
+student.set('toObject', { virtuals: true });
+student.set('toJSON', { virtuals: true });
 
 module.exports = {
-  studentModel: mongoose.model('Student', student),
   StudentModel: mongoose.model('Student', student),
   subjectSchema: subject,
 };

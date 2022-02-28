@@ -1,15 +1,116 @@
 /* eslint-disable no-underscore-dangle */
 const request = require('supertest');
 const { expect } = require('chai');
-const { app } = require('../../app');
+const { app, server } = require('../../app');
 
-const userIds = ['6203f2015b8b83c4b99a1ee2', '6203f29bd418ecc175b73989'];
+const userIds = ['6203f29bd418ecc175b73989', '62053f1e90c6987a613c1658'];
 const chatIds = ['620ba249fbfc2e688b4ac178'];
-const usernames = ['emirsagit'];
+const usernames = ['emirsagit79'];
 const names = ['ahmed', 'ammar'];
 const messages = ['hello', 'testing'];
 
+afterAll(async () => {
+  await server.close();
+});
+
 describe('Tutors endpoints /tutors', () => {
+  test('GET /tutors should get all users or return empty array if there is no users', (done) => {
+    request(app)
+      .get('/tutors')
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('array');
+        res.body.forEach((element) => {
+          expect(element.isTutor).to.equal(true);
+        });
+        return done();
+      });
+  });
+
+  test('GET /tutors/:id should get user with id', (done) => {
+    const id = '6203f29bd418ecc175b73989';
+    request(app)
+      .get(`/tutors/${id}`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('object');
+        // eslint-disable-next-line no-underscore-dangle
+        expect(res.body._id).to.equal(id);
+        return done();
+      });
+  });
+
+  test('GET /tutors/filter/:tagId should get users with tag equal to tagId', (done) => {
+    const id = '6203f29bd418ecc175b7398a';
+    request(app)
+      .get(`/tutors/filter/${id}`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.not.equal(0);
+        res.body.forEach((element) => {
+          expect(
+            // eslint-disable-next-line no-underscore-dangle
+            element.subjects.filter((e) => e._id === id).length
+          ).to.greaterThanOrEqual(1);
+        });
+        return done();
+      });
+  });
+
+  test('GET /tutors/search should get users with given firstName ', (done) => {
+    const name = 'emir';
+    request(app)
+      .get(`/tutors/search?tutorName=${name}`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.not.equal(0);
+        res.body.forEach((element) => {
+          expect(element.firstName).to.equal(name);
+        });
+        return done();
+      });
+  });
+
+  test('GET /tutors/search should get users with given lastName ', (done) => {
+    const name = 'sagit';
+    request(app)
+      .get(`/tutors/search?tutorName=${name}`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.not.equal(0);
+        res.body.forEach((element) => {
+          expect(element.lastName).to.equal(name);
+        });
+        return done();
+      });
+  });
+
+  test('GET /tutors/search should get users with given fullName ', (done) => {
+    const name = 'emir sagit';
+    request(app)
+      .get(`/tutors/search?tutorName=${name}`)
+      .expect('Content-Type', /json/)
+      .expect(200, (err, res) => {
+        if (err) return done(err);
+        expect(res.body).to.be.an('array');
+        expect(res.body.length).to.not.equal(0);
+        res.body.forEach((element, index) => {
+          if (index !== 0) {
+            expect(element.fullName).to.equal(name);
+          }
+        });
+        return done();
+      });
+  });
+
   describe('PUT /:id/edit', () => {
     test('should update the profile name from emir to ahmed', (done) => {
       request(app)

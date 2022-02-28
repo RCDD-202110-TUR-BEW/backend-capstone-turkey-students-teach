@@ -1,5 +1,3 @@
-
-
 # Students Teach 👩‍🎓👨🏿‍🎓
 <p float="right">Created by students for students</p>
 <p>
@@ -99,4 +97,3 @@ Meet our team members through their GitHub profiles
 
 | [<img alt="Ammar" src="https://avatars.githubusercontent.com/u/35445761?v=4?size=75" width="75"><br><sub>@Ammar</sub>](https://github.com/Ammar-64) | [<img alt="ali-riza" src="https://avatars.githubusercontent.com/u/61620817?v=4?size=75" width="75"><br><sub>@alfawal</sub>](https://github.com/alfawal) | [<img alt="aziza" src="https://avatars.githubusercontent.com/u/37173514?v=4?v=4?size=75" width="75"><br><sub>@emirsagit</sub>](https://github.com/emirsagit) | [<img alt="nur" src="https://avatars.githubusercontent.com/u/86510849?v=4?size=75" width="75"><br><sub>@ehabhalil</sub>](https://github.com/ehabhalil) | [<img alt="kutay" src="https://avatars.githubusercontent.com/u/88327053?v=4?size=75" width="75"><br><sub>@inasalarabi</sub>](https://github.com/inasalarabi) | [<img alt="moulham" src="https://avatars.githubusercontent.com/u/53450544?v=4?size=75" width="75"><br><sub>@Muhammeday99</sub>](https://github.com/Muhammeday99) |
 |--- |--- |--- |--- |--- |--- |
-
