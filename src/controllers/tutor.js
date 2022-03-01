@@ -71,26 +71,18 @@ module.exports = {
       'avatar',
       'subjects',
     ];
-    // should be added as a middleware
     Object.keys(req.body).forEach((key) => {
       if (!canChange.includes(key)) {
         delete req.body[key];
       }
     });
 
-    // for (let i = 0; i < Object.keys(req.body).length; i++) {
-    //   let objKey = Object.keys(req.body)[i];
-    //   if (cannotChange.includes(objKey)) {
-    //     delete req.body[objKey];
-    //   }
-    // }
-
     try {
-      const updatedProfile = await Student.findByIdAndUpdate(id, req.body, {
+      await Student.findByIdAndUpdate(id, req.body, {
         returnDocument: 'after',
       });
 
-      return res.status(200).json(updatedProfile);
+      return res.status(200).json({ message: 'Updated successfully' });
     } catch (e) {
       return res.status(422).json({ message: e.message });
     }

@@ -5,9 +5,9 @@ const { app, server } = require('../../app');
 
 const userIds = ['6203f29bd418ecc175b73989', '62053f1e90c6987a613c1658'];
 const chatIds = ['620ba249fbfc2e688b4ac178'];
-const usernames = ['emirsagit79'];
 const names = ['ahmed', 'ammar'];
 const messages = ['hello', 'testing'];
+const successMessage = 'Updated successfully';
 
 afterAll(async () => {
   await server.close();
@@ -121,8 +121,8 @@ describe('Tutors endpoints /tutors', () => {
         .expect(200, (err, res) => {
           if (err) return done(err);
           expect(res.body).to.be.an('object');
-          expect(res.body.firstName).to.be.a('string');
-          expect(res.body.firstName).to.be.equal(names[0]);
+          expect(res.body.message).to.be.a('string');
+          expect(res.body.message).to.be.equal(successMessage);
           return done();
         });
     });
@@ -136,8 +136,8 @@ describe('Tutors endpoints /tutors', () => {
         .expect(200, (err, res) => {
           if (err) return done(err);
           expect(res.body).to.be.an('object');
-          expect(res.body.username).to.be.a('string');
-          expect(res.body.username).to.be.equal(usernames[0]);
+          expect(res.body.message).to.be.a('string');
+          expect(res.body.message).to.be.equal(successMessage);
           return done();
         });
     });
