@@ -88,23 +88,23 @@ Launches the test runner
 
 ### System Architecture Diagram
 
-![System Architecture ](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
+![System Architecture ](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/SystemArchitecture.png)
 
 ### Database Schema Design
 
-![Database Schema](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
+![Database Schema](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/DatabaseDesign.png)
 
 ### Home Page
 
-![Home Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
+![Home Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/homepage.png)
 
 ### Question Page
 
-![Question Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
+![Question Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/questionPage.png)
 
 ### Tutor Page
 
-![Tutor Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach)
+![Tutor Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/tutorPage.png)
 
 ## Our Team
 
