@@ -16,11 +16,14 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "student",
+      "name": "Student",
       "externalDocs": {
         "description": "More about google authentication",
         "url": "https://developers.google.com/identity/sign-in/web/sign-in"
       }
+    },
+    {
+      "name": "Tutor"
     },
     {
       "name": "Question"
@@ -30,7 +33,7 @@
   "paths": {
     "/auth/signin": {
       "post": {
-        "tags": ["student"],
+        "tags": ["Student"],
         "summary": "Logs student into the system",
         "operationId": "loginUser",
         "produces": ["application/json"],
@@ -57,7 +60,7 @@
     },
     "/auth/signup": {
       "post": {
-        "tags": ["student"],
+        "tags": ["Student"],
         "summary": "Create a new student account",
         "description": "",
         "operationId": "signupStudent",
@@ -85,7 +88,7 @@
     },
     "/auth/signin/google": {
       "post": {
-        "tags": ["student"],
+        "tags": ["Student"],
         "summary": "Create a new student account or login via gmail",
         "description": "",
         "operationId": "signInGoogle",
@@ -116,7 +119,7 @@
     },
     "/tutors": {
       "get": {
-        "tags": ["student"],
+        "tags": ["Tutor"],
         "summary": "get all tutors",
         "description": "get all tutors as an array of objects",
         "responses": {
@@ -131,7 +134,7 @@
     },
     "/tutors/search": {
       "get": {
-        "tags": ["student"],
+        "tags": ["Tutor"],
         "summary": "search for tutors",
         "description": "get tutors matching search criteria as an array of objects",
         "parameters": [
@@ -156,7 +159,7 @@
     },
     "/tutors/{id}": {
       "get": {
-        "tags": ["student"],
+        "tags": ["Tutor"],
         "summary": "get tutor with given id",
         "description": "get tutor detail matching id as object",
         "parameters": [
@@ -181,7 +184,7 @@
     },
     "/tutors/filter/{tagId}": {
       "get": {
-        "tags": ["student"],
+        "tags": ["Tutor"],
         "summary": "search for tutors with given tag",
         "description": "get tutors with given tag as an array of objects",
         "parameters": [
@@ -204,7 +207,132 @@
         }
       }
     },
-    "/question/{id} ": {
+
+    "/tutors/{id}/edit": {
+      "put": {
+        "tags": ["Tutor"],
+        "summary": "Edits a tutor profile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Tutor's id",
+            "type": "ObjectId",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The field/s you want to change",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeableTutorProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "422": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/tutors/{id}/chat": {
+      "get": {
+        "tags": ["Tutor"],
+        "summary": "Gets tutor's all chats",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Tutor's id",
+            "type": "ObjectId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of chat channels"
+          },
+          "422": {
+            "description": "Error message"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tutor"],
+        "summary": "Adds a message to specific messaging channel",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Tutor's id",
+            "type": "ObjectId",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "\"chatId\" must be included if the messaging channel already exists.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Chat object"
+          },
+          "404": {
+            "description": "This chat room doesn't exist or doesn't belong to the user"
+          },
+          "422": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+
+    "/tutors/{id}/chat/{chatId}": {
+      "get": {
+        "tags": ["Tutor"],
+        "summary": "Gets a specific messaging channel",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Tutor's id",
+            "type": "ObjectId",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "chatId",
+            "description": "Existing messaging chat's id",
+            "type": "ObjectId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Messaging channel object"
+          },
+          "422": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+
+    "/question/{id}": {
       "put": {
         "tags": ["Question"],
         "summary": "update a question",
@@ -234,9 +362,7 @@
             "description": "validation error"
           }
         }
-      }
-    },
-    "/question/{id}": {
+      },
       "delete": {
         "tags": ["Question"],
         "summary": "delete a question",
@@ -677,7 +803,7 @@
       "properties": {
         "title": {
           "type": "string",
-          "enum": ["available", "pending", "sold"]
+          "enum": ["Math", "Physics", "Biology", "History", "Programming"]
         }
       }
     },
@@ -731,6 +857,47 @@
         "isRead": {
           "type": "boolean",
           "description": "default is false"
+        }
+      }
+    },
+    "ChangeableTutorProfile": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "isTutor": {
+          "type": "boolean"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subjects"
+          }
+        }
+      }
+    },
+    "MessageParams": {
+      "type": "object",
+      "required": ["content", "receiver"],
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "chatId": {
+          "type": "string"
+        },
+        "receiver": {
+          "type": "string"
         }
       }
     }
