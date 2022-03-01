@@ -121,8 +121,8 @@ describe('Tutors endpoints /tutors', () => {
         .expect(200, (err, res) => {
           if (err) return done(err);
           expect(res.body).to.be.an('object');
-          expect(res.body.firstName).to.be.a('string');
-          expect(res.body.firstName).to.be.equal(names[0]);
+          expect(res.body.message).to.be.a('string');
+          expect(res.body.message).to.be.equal(successMessage);
           return done();
         });
     });
