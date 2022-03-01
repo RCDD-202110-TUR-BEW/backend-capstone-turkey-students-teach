@@ -102,11 +102,8 @@ Launches the test runner
 
 ![Question Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/questionPage.png)
 
-### Tutor Page
 
-![Tutor Page](https://github.com/RCDD-202110-TUR-BEW/backend-capstone-turkey-students-teach/blob/add-screenshoots-links/views/login/readmeImages/tutorPage.png)
-
-## Our Team
+### Our Team
 
 Meet our team members through their GitHub profiles
 
