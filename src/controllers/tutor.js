@@ -5,41 +5,37 @@ module.exports = {
   getAllTutors: async (req, res) => {
     try {
       const tutors = await Student.find({ isTutor: true });
-      res.status(200).json(tutors);
+      return res.status(200).json(tutors);
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      return res.status(400).json({ message: e.message });
     }
   },
   getTutorDetails: async (req, res) => {
     const { id } = req.params;
     try {
       const details = await Student.findById(id);
-      res.status(200).json(details);
+      return res.status(200).json(details);
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      return res.status(400).json({ message: e.message });
     }
   },
   filterTutorsByTags: async (req, res) => {
     const { tagId } = req.params;
     try {
       const tutors = await Student.find({
-        subjects: {
-          $elemMatch: {
-            $or: [{ title: tagId }, { _id: tagId }],
-          },
-        },
+        $or: [{ 'subjects.title': tagId }, { 'subjects._id': tagId }],
       });
-      res.status(200).json(tutors);
+      return res.status(200).json(tutors);
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      return res.status(400).json({ message: e.message });
     }
   },
   searchForTutor: async (req, res) => {
     const { tutorName } = req.query;
-
-    const [firstName, lastName] = tutorName.toLowerCase().split(' ');
-
     try {
+      if (!tutorName)
+        return res.status(400).json({ message: "'tutorName' is required." });
+      const [firstName, lastName] = tutorName.toLowerCase().split(' ');
       const tutors = await Student.find({
         $and: [
           {
@@ -54,9 +50,9 @@ module.exports = {
           { isTutor: true },
         ],
       });
-      res.status(200).json(tutors);
+      return res.status(200).json(tutors);
     } catch (e) {
-      res.status(400).json({ message: e.message });
+      return res.status(400).json({ message: e.message });
     }
   },
 
