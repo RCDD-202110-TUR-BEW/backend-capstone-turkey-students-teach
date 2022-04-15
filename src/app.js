@@ -18,9 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN.split(' '),
   })
 );
+logger.info(`The current CORS origins are: ${process.env.CORS_ORIGIN}`);
 
 const port = process.env.NODE_LOCAL_PORT;
 
