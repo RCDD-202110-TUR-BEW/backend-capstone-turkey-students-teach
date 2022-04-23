@@ -1,7 +1,6 @@
 /** mocked dependencies */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const chai = require('chai');
 const { OAuth2Client } = require('google-auth-library');
 const { StudentModel } = require('../../models/student');
 const authController = require('../auth');
