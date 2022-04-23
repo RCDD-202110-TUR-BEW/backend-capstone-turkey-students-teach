@@ -10,7 +10,7 @@ const serverChecking = cron.schedule(
   '*/15 * * * *', // At every 15th minute.
   async () => {
     try {
-      const res = await fetch('http://localhost:3000/');
+      const res = await fetch('https://studentsteach.re-coded.com/api');
 
       if (res.status >= 400) {
         return logger.error(

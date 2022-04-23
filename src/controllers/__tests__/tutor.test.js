@@ -13,10 +13,10 @@ afterAll(async () => {
   await server.close();
 });
 
-describe('Tutors endpoints /tutors', () => {
-  test('GET /tutors should get all users or return empty array if there is no users', (done) => {
+describe('Tutors endpoints /api/tutors', () => {
+  test('GET /api/tutors should get all users or return empty array if there is no users', (done) => {
     request(app)
-      .get('/tutors')
+      .get('/api/tutors')
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -28,10 +28,10 @@ describe('Tutors endpoints /tutors', () => {
       });
   });
 
-  test('GET /tutors/:id should get user with id', (done) => {
+  test('GET /api/tutors/:id should get user with id', (done) => {
     const id = '6203f29bd418ecc175b73989';
     request(app)
-      .get(`/tutors/${id}`)
+      .get(`/api/tutors/${id}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -42,10 +42,10 @@ describe('Tutors endpoints /tutors', () => {
       });
   });
 
-  test('GET /tutors/filter/:tagId should get users with tag equal to tagId', (done) => {
+  test('GET /api/tutors/filter/:tagId should get users with tag equal to tagId', (done) => {
     const id = '6203f29bd418ecc175b7398a';
     request(app)
-      .get(`/tutors/filter/${id}`)
+      .get(`/api/tutors/filter/${id}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -61,10 +61,10 @@ describe('Tutors endpoints /tutors', () => {
       });
   });
 
-  test('GET /tutors/search should get users with given firstName ', (done) => {
+  test('GET /api/tutors/search should get users with given firstName ', (done) => {
     const name = 'emir';
     request(app)
-      .get(`/tutors/search?tutorName=${name}`)
+      .get(`/api/tutors/search?tutorName=${name}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -77,10 +77,10 @@ describe('Tutors endpoints /tutors', () => {
       });
   });
 
-  test('GET /tutors/search should get users with given lastName ', (done) => {
+  test('GET /api/tutors/search should get users with given lastName ', (done) => {
     const name = 'sagit';
     request(app)
-      .get(`/tutors/search?tutorName=${name}`)
+      .get(`/api/tutors/search?tutorName=${name}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -93,10 +93,10 @@ describe('Tutors endpoints /tutors', () => {
       });
   });
 
-  test('GET /tutors/search should get users with given fullName ', (done) => {
+  test('GET /api/tutors/search should get users with given fullName ', (done) => {
     const name = 'emir sagit';
     request(app)
-      .get(`/tutors/search?tutorName=${name}`)
+      .get(`/api/tutors/search?tutorName=${name}`)
       .expect('Content-Type', /json/)
       .expect(200, (err, res) => {
         if (err) return done(err);
@@ -114,7 +114,7 @@ describe('Tutors endpoints /tutors', () => {
   describe('PUT /:id/edit', () => {
     test('should update the profile name from emir to ahmed', (done) => {
       request(app)
-        .put(`/tutors/${userIds[0]}/edit`)
+        .put(`/api/tutors/${userIds[0]}/edit`)
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .send({ firstName: names[0] })
@@ -129,7 +129,7 @@ describe('Tutors endpoints /tutors', () => {
 
     test('should NOT change the username', (done) => {
       request(app)
-        .put(`/tutors/${userIds[0]}/edit`)
+        .put(`/api/tutors/${userIds[0]}/edit`)
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .send({ username: names[1] })
@@ -146,7 +146,7 @@ describe('Tutors endpoints /tutors', () => {
   describe('GET /:id/chat', () => {
     test('should check for the messaging channels structure', (done) => {
       request(app)
-        .get(`/tutors/${userIds[0]}/chat`)
+        .get(`/api/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, (err, res) => {
@@ -165,7 +165,7 @@ describe('Tutors endpoints /tutors', () => {
   describe('GET /:id/chat/:chatId', () => {
     test('should check for the single chat structure', (done) => {
       request(app)
-        .get(`/tutors/${userIds[0]}/chat/${chatIds[0]}`)
+        .get(`/api/tutors/${userIds[0]}/chat/${chatIds[0]}`)
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, (err, res) => {
@@ -187,7 +187,7 @@ describe('Tutors endpoints /tutors', () => {
   describe('POST /:id/chat', () => {
     test('should create a chatroom and send "hello"', (done) => {
       request(app)
-        .post(`/tutors/${userIds[0]}/chat`)
+        .post(`/api/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
         .send({ content: messages[0], receiver: userIds[1] })
         .expect(201, (err) => {
@@ -198,7 +198,7 @@ describe('Tutors endpoints /tutors', () => {
 
     test('should check for the chatroom and the message creation', (done) => {
       request(app)
-        .get(`/tutors/${userIds[0]}/chat`)
+        .get(`/api/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200, (err, res) => {
@@ -212,7 +212,7 @@ describe('Tutors endpoints /tutors', () => {
 
     test('should send the message "hello" to an existing channel', (done) => {
       request(app)
-        .post(`/tutors/${userIds[0]}/chat`)
+        .post(`/api/tutors/${userIds[0]}/chat`)
         .set('Content-Type', 'application/json')
         .send({
           chatId: chatIds[0],

@@ -77,11 +77,14 @@ module.exports = {
 
       // generate jwt token and send it to client with student information in payload
       const token = generateAccessToken({ student });
-      return res.status(200).json(token);
+
+      const { _id: id, firstName, lastName } = student;
+      return res.status(200).json({ id, firstName, lastName, token });
     } catch (err) {
       return res.status(400).json(err);
     }
   },
+
   signup: async (req, res) => {
     const { firstName, lastName, password, avatar, email, isTutor, subjects } =
       req.body;
@@ -133,7 +136,8 @@ module.exports = {
       // Generate jwt token
       const token = generateAccessToken({ student: newStudent });
 
-      return res.status(201).json(token);
+      const { _id: id } = newStudent;
+      return res.status(201).json({ id, firstName, lastName, token });
     } catch (error) {
       return res.status(400).json({ error });
     }
@@ -188,7 +192,12 @@ module.exports = {
         // student was signed up with google before
         // log in user via sending a jwt token
         const newToken = generateAccessToken({ student: existingStudent });
-        return res.status(200).json(newToken);
+        return res.status(200).json({
+          id: existingStudent.id,
+          firstName: existingStudent.firstName,
+          lastName: existingStudent.lastName,
+          token: newToken,
+        });
       }
       /**
        * Persist google verified student to database
@@ -210,7 +219,12 @@ module.exports = {
 
       // generate access token and send it
       const jwtToken = generateAccessToken({ student: newStudent });
-      return res.status(201).json(jwtToken);
+      return res.status(201).json({
+        id: newStudent.id,
+        firstName,
+        lastName,
+        token: jwtToken,
+      });
     } catch (error) {
       return res.status(400).json({ error });
     }

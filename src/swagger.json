@@ -13,7 +13,7 @@
     }
   },
   "host": "localhost:3000",
-  "basePath": "/",
+  "basePath": "/api",
   "tags": [
     {
       "name": "Student",
@@ -50,7 +50,7 @@
         ],
         "responses": {
           "200": {
-            "description": "JWT token includes user informations"
+            "description": "JWT token, id, firstName, lastName"
           },
           "400": {
             "description": "wrong email or password"
@@ -78,7 +78,7 @@
         ],
         "responses": {
           "201": {
-            "description": "JWT token includes user informations"
+            "description": "JWT token, id, firstName, lastName"
           },
           "400": {
             "description": "{ error: `${email}: email already exist` }"
@@ -106,10 +106,10 @@
         ],
         "responses": {
           "200": {
-            "description": "JWT token includes user informations"
+            "description": "JWT token, id, firstName, lastName"
           },
           "201": {
-            "description": "JWT token includes user informations"
+            "description": "JWT token, id, firstName, lastName"
           },
           "400": {
             "description": "{ error: 'Cant verify with google authentication' }"
@@ -218,7 +218,6 @@
             "in": "path",
             "name": "id",
             "description": "Tutor's id",
-            "type": "ObjectId",
             "required": true
           },
           {
@@ -251,7 +250,6 @@
             "in": "path",
             "name": "id",
             "description": "Tutor's id",
-            "type": "ObjectId",
             "required": true
           }
         ],
@@ -273,7 +271,6 @@
             "in": "path",
             "name": "id",
             "description": "Tutor's id",
-            "type": "ObjectId",
             "required": true
           },
           {
@@ -310,14 +307,12 @@
             "in": "path",
             "name": "id",
             "description": "Tutor's id",
-            "type": "ObjectId",
             "required": true
           },
           {
             "in": "path",
             "name": "chatId",
             "description": "Existing messaging chat's id",
-            "type": "ObjectId",
             "required": true
           }
         ],

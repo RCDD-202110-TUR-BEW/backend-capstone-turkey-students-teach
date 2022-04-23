@@ -63,7 +63,7 @@ const comment = [
 async function initializeDatabase() {
   const agentUser1 = request.agent(app);
   const res = await agentUser1
-    .post('/questions')
+    .post('/api/questions')
     .type('form')
     .send(question[0]);
   // eslint-disable-next-line no-underscore-dangle
@@ -79,9 +79,9 @@ afterAll(async () => {
   await server.close();
 });
 describe('update a question', () => {
-  test('PUT /question/:id should update the question and return the updated question in the response', (done) => {
+  test('PUT /api/question/:id should update the question and return the updated question in the response', (done) => {
     request(app)
-      .put(`/questions/${questionId[0]}`)
+      .put(`/api/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(question[0])
@@ -99,9 +99,9 @@ describe('update a question', () => {
         done();
       });
   });
-  test('PUT /question/:id should update question with one or more attributes and should not update student reference', (done) => {
+  test('PUT /api/question/:id should update question with one or more attributes and should not update student reference', (done) => {
     request(app)
-      .put(`/questions/${questionId[0]}`)
+      .put(`/api/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(question[1])
@@ -115,9 +115,9 @@ describe('update a question', () => {
         done();
       });
   });
-  test('PUT /question/:id should not update question if there is no authorization', (done) => {
+  test('PUT /api/question/:id should not update question if there is no authorization', (done) => {
     request(app)
-      .put(`/questions/${questionId[1]}`)
+      .put(`/api/questions/${questionId[1]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(question[1])
@@ -133,7 +133,7 @@ describe('update a question', () => {
 describe('create a comment', () => {
   test('POST /:id/comments should create a new comment and return the question in the response', (done) => {
     request(app)
-      .post(`/questions/${questionId[0]}/comments`)
+      .post(`/api/questions/${questionId[0]}/comments`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(comment[0])
@@ -147,7 +147,7 @@ describe('create a comment', () => {
   });
   test('POST /:id/comments should create more than one comments on a question and return the question in the response', (done) => {
     request(app)
-      .post(`/questions/${questionId[0]}/comments`)
+      .post(`/api/questions/${questionId[0]}/comments`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(comment[0])
@@ -169,7 +169,7 @@ describe('create a comment', () => {
 describe('update a comment', () => {
   test('PUT /:id/comments/:commentid should update the comment and return the updated question in the response', (done) => {
     request(app)
-      .put(`/questions/${questionId[0]}/comments/${commentId[0]}`)
+      .put(`/api/questions/${questionId[0]}/comments/${commentId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(comment[1])
@@ -183,7 +183,7 @@ describe('update a comment', () => {
   });
   test('PUT /:id/comments/:commentid should not update comment if there is no authorization', (done) => {
     request(app)
-      .put(`/questions/${questionId[0]}/comments/${commentId[1]}`)
+      .put(`/api/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .send(comment[1])
@@ -198,7 +198,7 @@ describe('update a comment', () => {
 describe('delete a comment', () => {
   test('DELETE /:id/comments/:commentid should delete the comment and return the updated question in the response', (done) => {
     request(app)
-      .delete(`/questions/${questionId[0]}/comments/${commentId[0]}`)
+      .delete(`/api/questions/${questionId[0]}/comments/${commentId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
@@ -210,7 +210,7 @@ describe('delete a comment', () => {
   });
   test('DELETE /:id/comments/:commentid should not delete comment if there is no authorization', (done) => {
     request(app)
-      .delete(`/questions/${questionId[0]}/comments/${commentId[1]}`)
+      .delete(`/api/questions/${questionId[0]}/comments/${commentId[1]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
@@ -222,9 +222,9 @@ describe('delete a comment', () => {
   });
 });
 describe('delete a question', () => {
-  test('DELETE /question/:id should delete the question and return the deleted question in the response', (done) => {
+  test('DELETE /api/question/:id should delete the question and return the deleted question in the response', (done) => {
     request(app)
-      .delete(`/questions/${questionId[0]}`)
+      .delete(`/api/questions/${questionId[0]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
@@ -236,9 +236,9 @@ describe('delete a question', () => {
         done();
       });
   });
-  test('DELETE /question/:id should not DELETE question if there is no authorization', (done) => {
+  test('DELETE /api/question/:id should not DELETE question if there is no authorization', (done) => {
     request(app)
-      .put(`/questions/${questionId[1]}`)
+      .put(`/api/questions/${questionId[1]}`)
       .set('Content-Type', 'application/json')
       .set('Cookie', ['accessToken=12345667'])
       .expect('Content-Type', /json/)
@@ -298,13 +298,13 @@ const mockUser = {
 };
 
 // 1. Test getAllQuestions function
-describe('Get /questions', () => {
+describe('Get /api/questions', () => {
   test('should return all questions related to the logged user', async () => {
     mockUser.subjects = [{ title: 'Math' }];
     StudentModel.findById = jest.fn().mockReturnValue(mockUser);
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions.slice(0, 2));
     await request(app)
-      .get('/questions')
+      .get('/api/questions')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -319,7 +319,7 @@ describe('Get /questions', () => {
     StudentModel.findById = jest.fn().mockReturnValue(mockUser);
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
     await request(app)
-      .get('/questions')
+      .get('/api/questions')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -332,7 +332,7 @@ describe('Get /questions', () => {
   test('should return all questions does exist in the database when no logged in user', async () => {
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
     await request(app)
-      .get('/questions')
+      .get('/api/questions')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -344,7 +344,7 @@ describe('Get /questions', () => {
   test('should return message if no questions found in the database', async () => {
     QuestionModel.find = jest.fn().mockReturnValue([]);
     await request(app)
-      .get('/questions')
+      .get('/api/questions')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -355,11 +355,11 @@ describe('Get /questions', () => {
 });
 
 // 2. Test getOneQuestions function
-describe('Get /questions/:id', () => {
+describe('Get /api/questions/:id', () => {
   it('should return single question defined by its id', async () => {
     QuestionModel.findById = jest.fn().mockReturnValue(mockQuestions[0]);
     await request(app)
-      .get('/questions/id')
+      .get('/api/questions/id')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -370,7 +370,7 @@ describe('Get /questions/:id', () => {
   it('should return message when no question found in the database', async () => {
     QuestionModel.findById = jest.fn().mockReturnValue(null);
     await request(app)
-      .get('/questions/id')
+      .get('/api/questions/id')
       .set('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
@@ -383,12 +383,12 @@ describe('Get /questions/:id', () => {
 });
 
 // 3. Test addNewQuestion function
-describe('Post /questions', () => {
+describe('Post /api/questions', () => {
   it('should create new question and assign it to the current user', async () => {
     const { title, content, subjects } = mockQuestions[0];
     QuestionModel.create = jest.fn().mockReturnValue(mockQuestions[0]);
     await request(app)
-      .post('/questions')
+      .post('/api/questions')
       .set('Content-Type', 'application/json')
       .send({ title, content, subjects })
       .expect(201)
@@ -401,7 +401,7 @@ describe('Post /questions', () => {
   it('should throw an error in case of any error occured in database', async () => {
     QuestionModel.create = jest.fn().mockRejectedValue(mockError);
     await request(app)
-      .post('/questions')
+      .post('/api/questions')
       .set('Content-Type', 'application/json')
       .send(mockQuestions[0])
       .expect(422)
@@ -414,7 +414,7 @@ describe('Post /questions', () => {
     const missingDataError = new Error('Question Title is required');
     QuestionModel.create = jest.fn().mockRejectedValue(missingDataError);
     await request(app)
-      .post('/questions')
+      .post('/api/questions')
       .set('Content-Type', 'application/json')
       .send(missedTitleQuestion)
       .expect(422)
@@ -426,11 +426,11 @@ describe('Post /questions', () => {
 });
 
 // 4. Test getQuestiosWithSimilarTags function
-describe('Get /questions/filter/:tags', () => {
+describe('Get /api/questions/filter/:tags', () => {
   it('should return all question tagged with choosen subjects', async () => {
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions.slice(0, 2));
     await request(app)
-      .get('/questions/filter/:tags')
+      .get('/api/questions/filter/:tags')
       .set('Content-Type', 'application/json')
       .query({ tags: { title: 'Math' } })
       .expect(200)
@@ -445,7 +445,7 @@ describe('Get /questions/filter/:tags', () => {
   it('should throw an error with message if tags are missed', async () => {
     const tags = {};
     await request(app)
-      .get('/questions/filter/:tags')
+      .get('/api/questions/filter/:tags')
       .set('Content-Type', 'application/json')
       .query(tags)
       .expect(400)
@@ -456,11 +456,11 @@ describe('Get /questions/filter/:tags', () => {
 });
 
 // 5. Test searchForQuestions function
-describe('Get /questions/search', () => {
+describe('Get /api/questions/search', () => {
   it(`should return all question that its title or content contain 'que' text`, async () => {
     QuestionModel.find = jest.fn().mockReturnValue(mockQuestions);
     await request(app)
-      .get('/questions/search')
+      .get('/api/questions/search')
       .set('Content-Type', 'application/json')
       .query({ text: 'que' })
       .expect(200)
@@ -472,7 +472,7 @@ describe('Get /questions/search', () => {
   });
   it('should throw an error with message if text is missed', async () => {
     await request(app)
-      .get('/questions/search')
+      .get('/api/questions/search')
       .set('Content-Type', 'application/json')
       .query({})
       .expect(400)
