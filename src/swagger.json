@@ -733,7 +733,7 @@
           },
           "email": {
             "type": "string",
-            "example": "inasalarabi@gmail"
+            "example": "inasalarabi@gmail.com"
           }
         }
       }
@@ -758,6 +758,9 @@
           "type": "string"
         },
         "avatar": {
+          "type": "string"
+        },
+        "profile_cover": {
           "type": "string"
         },
         "subjects": {
@@ -871,6 +874,9 @@
           "type": "boolean"
         },
         "avatar": {
+          "type": "string"
+        },
+        "profile_cover": {
           "type": "string"
         },
         "subjects": {
