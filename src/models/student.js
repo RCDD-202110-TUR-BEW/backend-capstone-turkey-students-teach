@@ -42,6 +42,9 @@ const student = mongoose.Schema({
   avatar: {
     type: String,
   },
+  profile_cover: {
+    type: String,
+  },
   subjects: {
     type: [subject],
   },

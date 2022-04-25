@@ -66,6 +66,7 @@ module.exports = {
       'isTutor',
       'avatar',
       'subjects',
+      'profile_cover',
     ];
     Object.keys(req.body).forEach((key) => {
       if (!canChange.includes(key)) {

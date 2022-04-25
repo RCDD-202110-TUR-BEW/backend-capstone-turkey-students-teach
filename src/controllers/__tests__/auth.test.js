@@ -14,10 +14,14 @@ jest.mock('../../models/student');
 
 /** data */
 const token = 'token';
+const id = '6203f29bd418ecc175b73989';
+const firstName = 'emir';
+const lastName = 'sağıt';
 
 const studentData = {
-  firstName: 'emir',
-  lastName: 'sagit',
+  id,
+  firstName,
+  lastName,
   password: 'Es412412',
   avatar: 'avatar_url',
   email: 'emirsagitt@gmail.com',
@@ -86,7 +90,11 @@ describe('Sign in method', () => {
       { expiresIn: process.env.TOKEN_EXPIRES }
     );
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(token);
+    expect(res.json).toHaveBeenCalledWith({
+      token,
+      firstName,
+      lastName,
+    });
   });
 
   test('should give an error if email does not exist on database', async () => {
@@ -158,7 +166,11 @@ describe('Signup method', () => {
       { expiresIn: process.env.TOKEN_EXPIRES }
     );
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith(token);
+    expect(res.json).toHaveBeenCalledWith({
+      token,
+      firstName,
+      lastName,
+    });
   });
   test('should give an error if email existed', async () => {
     // prapare mocks for testing
@@ -185,7 +197,12 @@ describe('signInWithGmail method', () => {
     await authController.signInWithGmail(req, res);
     expect(client.verifyIdToken).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith(token);
+    expect(res.json).toHaveBeenCalledWith({
+      token,
+      id,
+      firstName,
+      lastName,
+    });
   });
 
   test('should give an error if existing user didnt not signup via google before', async () => {
@@ -212,7 +229,12 @@ describe('signInWithGmail method', () => {
       email: req.body.email,
     });
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(token);
+    expect(res.json).toHaveBeenCalledWith({
+      token,
+      id: undefined,
+      firstName: undefined,
+      lastName: undefined,
+    });
   });
 
   test('should give an error if google token verifcation has failed', async () => {

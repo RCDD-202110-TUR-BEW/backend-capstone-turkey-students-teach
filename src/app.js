@@ -29,11 +29,11 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 
-app.use('/', router);
-app.use('/tutors', tutorRouter);
-app.use('/questions', questionRouter);
-app.use('/auth', authRouter);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api', router);
+app.use('/api/tutors', tutorRouter);
+app.use('/api/questions', questionRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 logger.info('Starting the server checking cron job...');
 cronServerChecking.start();
